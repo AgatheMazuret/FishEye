@@ -1,43 +1,82 @@
-import { photographerTemplate } from "./photographer.js";
+import { photographerTemplate } from "./templates/photographers.js";
 import "./css/style.css";
-import "./data/photographers.json";
+import "../public/photographers.json";
+import "./css/photographer.css";
+import "./templates/photographers.js";
+
 // Fonction asynchrone pour récupérer les données des photographes
 async function getPhotographers() {
   try {
-    // Effectue une requête pour récupérer le fichier JSON des photographes
-    const response = await fetch("../data/photographers.json");
-    // Convertit la réponse en objet JavaScript
+    const response = await fetch("public/photographers.json");
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
     const data = await response.json();
-    // Retourne les données récupérées
+    console.log("Photographers data:", data);
     return data;
   } catch (error) {
-    // Affiche une erreur dans la console en cas de problème
-    console.error("Error: ", error);
+    console.error("Get photographers error:", error);
   }
+}
+
+// Fonction pour précharger les images
+function preloadImages(photographers) {
+  return new Promise((resolve, reject) => {
+    let loadedImages = 0;
+    const totalImages = photographers.length;
+
+    photographers.forEach((photographer) => {
+      const img = new Image();
+      img.src = `../public/Photographers_ID_Photos/${photographer.portrait}`;
+      img.onload = () => {
+        loadedImages++;
+        if (loadedImages === totalImages) {
+          resolve();
+        }
+      };
+      img.onerror = (error) => {
+        console.error("Error loading image:", error);
+        reject(error);
+      };
+    });
+  });
 }
 
 // Fonction asynchrone pour afficher les données des photographes
 async function displayData(photographers) {
-  // Sélectionne la section HTML où les cartes des photographes seront affichées
-  const photographersSection = document.querySelector(".photographer_section");
+  try {
+    const photographersSection = document.querySelector(
+      ".photographer_section"
+    );
+    if (!photographersSection) {
+      throw new Error("Photographer section not found");
+    }
 
-  // Pour chaque photographe dans le tableau des photographes
-  photographers.forEach((photographer) => {
-    // Crée un modèle de photographe à partir des données du photographe
-    const photographerModel = photographerTemplate(photographer);
-    // Génère le DOM de la carte utilisateur pour le photographe
-    const userCardDOM = photographerModel.getUserCardDOM();
-    // Ajoute la carte utilisateur à la section des photographes
-    photographersSection.appendChild(userCardDOM);
-  });
+    photographers.forEach((photographer) => {
+      console.log("Photographer:", photographer);
+      const photographerModel = photographerTemplate(photographer);
+      const userCardDOM = photographerModel.getUserCardDOM();
+      console.log("UserCardDOM:", userCardDOM);
+      photographersSection.appendChild(userCardDOM);
+    });
+  } catch (error) {
+    console.error("Display data error:", error);
+  }
 }
 
 // Fonction d'initialisation asynchrone
 async function init() {
-  // Récupère les données des photographes en appelant getPhotographers()
-  const { photographers } = await getPhotographers();
-  // Affiche les données des photographes en appelant displayData()
-  displayData(photographers);
+  try {
+    const data = await getPhotographers();
+    if (data && data.photographers) {
+      await preloadImages(data.photographers); // Précharge les images avant d'afficher les données
+      displayData(data.photographers);
+    } else {
+      throw new Error("No photographers data found");
+    }
+  } catch (error) {
+    console.error("Init error:", error);
+  }
 }
 
 // Appelle la fonction d'initialisation pour démarrer le processus
