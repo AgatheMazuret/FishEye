@@ -5,17 +5,22 @@ export function photographerTemplate(data) {
 
   function getUserCardDOM() {
     const article = document.createElement("article");
-    article.setAttribute("data-id", id); // Ajoutez l'ID en tant qu'attribut data-id
+    article.setAttribute("data-id", id);
+
     const img = document.createElement("img");
     img.setAttribute("src", picture);
+
     const h2 = document.createElement("h2");
     h2.textContent = name;
+
+    // Modifiez l'élément <a> pour inclure le lien avec l'ID
     const a = document.createElement("a");
-    // a.href  mettre un href pour ouvrir la page du photographe
     a.textContent = `${city}, ${country}`;
+    a.setAttribute("href", `photographer.html?id=${id}`);
 
     const p = document.createElement("p");
     p.textContent = tagline;
+
     const div = document.createElement("div");
     div.textContent = price + "€/jour";
 
@@ -24,18 +29,6 @@ export function photographerTemplate(data) {
     article.appendChild(a);
     article.appendChild(p);
     article.appendChild(div);
-
-    // // article.addEventListener("click", function () {
-    //   // Récupérer l'ID du photographe à partir de l'attribut data-id
-    //   const photographerId = article.getAttribute("data-id");
-
-    //   // Créer l'URL avec le paramètre ID
-    //   const url = `photographer.html?id=${photographerId}`;
-
-    //   // Ouvrir la nouvelle page avec l'ID dans l'URL
-    //   window.open(url, "_blank"); // Ouvre dans un nouvel onglet
-    //   // window.location.href = url; // Ouvre dans le même onglet
-    // });
 
     return article;
   }
