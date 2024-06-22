@@ -1,13 +1,11 @@
-import { photographerTemplate } from "./templates/photographers.js";
-import "./css/style.css";
-import "../public/photographers.json";
-import "./css/photographer.css";
-import "./templates/photographers.js";
+import { photographerTemplate } from "../templates/photographers.js";
+import "../css/style.css";
+import "../css/photographer.css";
 
 // Fonction asynchrone pour récupérer les données des photographes
 async function getPhotographers() {
   try {
-    const response = await fetch("public/photographers.json");
+    const response = await fetch("/photographers.json");
     if (!response.ok) {
       throw new Error("Network response was not ok");
     }
@@ -27,7 +25,7 @@ function preloadImages(photographers) {
 
     photographers.forEach((photographer) => {
       const img = new Image();
-      img.src = `../public/Photographers_ID_Photos/${photographer.portrait}`;
+      img.src = `/Photographers_ID_Photos/${photographer.portrait}`;
       img.onload = () => {
         loadedImages++;
         if (loadedImages === totalImages) {
