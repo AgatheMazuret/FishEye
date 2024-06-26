@@ -55,6 +55,7 @@ h1 {
 .photographer_section article a {
   color: #901c1c;
   margin: 3px;
+  text-decoration: none;
 }
 
 .photographer_section article p {

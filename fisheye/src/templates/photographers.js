@@ -17,18 +17,24 @@ export function photographerTemplate(data) {
     const a = document.createElement("a");
     a.textContent = `${city}, ${country}`;
     a.setAttribute("href", `photographer.html?id=${id}`);
+    a.setAttribute("target", "_blank"); // Ouvrir le lien dans un nouvel onglet
 
     const p = document.createElement("p");
     p.textContent = tagline;
 
-    const div = document.createElement("div");
-    div.textContent = price + "€/jour";
+    const priceDiv = document.createElement("div");
+    priceDiv.textContent = price + "€/jour";
+    priceDiv.classList.add("price");
+
+    const presentationDiv = document.createElement("div");
+    presentationDiv.classList.add("presentation");
+    presentationDiv.appendChild(h2);
+    presentationDiv.appendChild(a);
+    presentationDiv.appendChild(p);
 
     article.appendChild(img);
-    article.appendChild(h2);
-    article.appendChild(a);
-    article.appendChild(p);
-    article.appendChild(div);
+    article.appendChild(presentationDiv);
+    article.appendChild(priceDiv);
 
     return article;
   }
