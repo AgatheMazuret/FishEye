@@ -39,6 +39,13 @@ h1 {
   cursor: pointer;
 }
 
+.photographer_section article .presentation {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+}
+
 .photographer_section article h2 {
   color: #d3573c;
   font-size: 36px;

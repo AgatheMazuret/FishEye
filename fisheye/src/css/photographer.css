@@ -7,7 +7,7 @@
   height: 300px;
   margin: 0 100px;
   display: flex;
-  flex-direction: row;
+  flex-direction: row-reverse;
 }
 
 .photograph-header img {
@@ -32,6 +32,7 @@
 .photograph-header a {
   font-size: 24px;
   color: #901c1c;
+  text-decoration: none;
 }
 
 .photograph-header p {
