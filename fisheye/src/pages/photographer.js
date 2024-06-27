@@ -52,10 +52,6 @@ function getPhotographPresentation({
   tagline,
   price,
 }) {
-  const img = document.createElement("img");
-  img.setAttribute("src", `/Photographers_ID_Photos/${portrait}`);
-  img.setAttribute("alt", name);
-
   const div = document.createElement("div");
   div.classList.add("presentation");
 
@@ -68,13 +64,16 @@ function getPhotographPresentation({
   const p = document.createElement("p");
   p.textContent = tagline;
 
+  const img = document.createElement("img");
+  img.setAttribute("src", `/Photographers_ID_Photos/${portrait}`);
+  img.setAttribute("alt", name);
+
   const priceDiv = document.createElement("div");
   priceDiv.textContent = `${price}€/jour`;
   priceDiv.classList.add("price");
 
-  photographHeader.appendChild(img);
   photographHeader.appendChild(div);
-  photographHeader.appendChild(priceDiv);
+  photographHeader.appendChild(img);
 
   div.appendChild(h2);
   div.appendChild(a);
