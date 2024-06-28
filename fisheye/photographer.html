@@ -15,17 +15,13 @@
       <img src="/logo.png" class="logo" />
     </header>
     <main id="main">
-      <div class="photograph-header">
-        <button class="contact_button" onclick="displayModal()">
-          Contactez-moi
-        </button>
-      </div>
+      <div class="photograph-header"></div>
     </main>
     <div id="contact_modal">
       <div class="modal">
         <header>
           <h2>Contactez-moi</h2>
-          <img src="/close.svg" onclick="closeModal()" />
+          <img class="closeBtn" src="/close.svg" />
         </header>
         <form>
           <div>
@@ -46,7 +42,21 @@
         </form>
       </div>
     </div>
+    <li class="dropdown">
+      <p>Trier par</p>
+      <button class="dropbtn"></button>
+      <div class="dropdown-content">
+        <a href="#">Popularité</a>
+        <hr />
+        <a href="#">Date</a>
+        <hr />
+        <a href="#">Titre</a>
+      </div>
+    </li>
+
     <div class="photograph-gallery"></div>
+    <div class="photograph-lightbox"></div>
+
     <script type="module" src="/src/pages/photographer.js"></script>
     <script type="module" src="/src/scripts/outils/contactForm.js"></script>
   </body>

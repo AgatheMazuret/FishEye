@@ -1,5 +1,8 @@
 import "../css/style.css";
 import "../css/photographer.css";
+import { displayModal } from "../scripts/outils/contactForm";
+import { closeModal } from "../scripts/outils/contactForm";
+//Présentation section
 
 // Sélectionner l'élément DOM où les informations du photographe seront ajoutées
 const photographHeader = document.querySelector(".photograph-header");
@@ -52,33 +55,104 @@ function getPhotographPresentation({
   tagline,
   price,
 }) {
-  const div = document.createElement("div");
-  div.classList.add("presentation");
+  const divPresentation = document.createElement("div");
+  divPresentation.classList.add("presentation");
+  photographHeader.appendChild(divPresentation);
 
-  const h2 = document.createElement("h2");
-  h2.textContent = name;
+  const photographerName = document.createElement("h2");
+  photographerName.textContent = name;
+  divPresentation.appendChild(photographerName);
 
-  const a = document.createElement("a");
-  a.textContent = `${city}, ${country}`;
+  const locationElement = document.createElement("p");
+  locationElement.textContent = `${city}, ${country}`;
+  locationElement.classList.add("location");
+  divPresentation.appendChild(locationElement);
 
-  const p = document.createElement("p");
-  p.textContent = tagline;
+  const taglineElement = document.createElement("p");
+  taglineElement.textContent = tagline;
+  divPresentation.appendChild(taglineElement);
+
+  const contactButton = document.createElement("button");
+  contactButton.classList.add("contact_button");
+  contactButton.textContent = "Contactez-moi";
+  contactButton.addEventListener("click", displayModal);
+  photographHeader.appendChild(contactButton);
 
   const img = document.createElement("img");
   img.setAttribute("src", `/Photographers_ID_Photos/${portrait}`);
   img.setAttribute("alt", name);
-
-  const priceDiv = document.createElement("div");
-  priceDiv.textContent = `${price}€/jour`;
-  priceDiv.classList.add("price");
-
-  photographHeader.appendChild(div);
   photographHeader.appendChild(img);
 
-  div.appendChild(h2);
-  div.appendChild(a);
-  div.appendChild(p);
+  /**
+   * TODO: Ajouter pour plus tard
+   */
+  // const priceDiv = document.createElement("div");
+  // priceDiv.textContent = `${price}€/jour`;
+  // priceDiv.classList.add("price");
+  const closeBtn = document.querySelector(".closeBtn");
+  closeBtn.addEventListener("click", closeModal);
 }
+// Gallery section
 
 // Sélectionner l'élément du DOM où les images du photographe seront ajoutées
-const photographGallery = document.querySelector(".photograph-gallery");
+
+// Fetch le fichier JSON qui contient les informations des photographes
+
+fetch("/photographers.json")
+  .then((response) => {
+    // Convertit la réponse en un objet JSON
+    return response.json();
+  })
+
+  .then((data) => {
+    // Trouve le photographe spécifique en fonction de son identifiant
+    const photographerWork = data.photographers.find(
+      (photographer) => photographer.id == id
+    );
+
+    // Déstructure les propriétés de l'objet photographe work
+    const { title, image, video, date, likes } = photographerWork;
+
+    // Crée un nouvel objet avec les données du photographe
+    const photographerWorkData = {
+      title,
+      image,
+      video,
+      date,
+      likes,
+    };
+
+    // Appeler la fonction pour afficher les images du photographe
+    getPhotographGallery(photographerWorkData);
+  });
+
+// Fonction pour construire le DOM avec les images du photographe
+
+function getPhotographGallery({ title, date, likes, image = [], video = [] }) {
+  const photographGallery = document.querySelector(".photograph-gallery");
+
+  const titleElement = document.createElement("h2");
+  titleElement.textContent = title;
+  photographGallery.appendChild(titleElement);
+
+  const likesElement = document.createElement("p");
+  likesElement.textContent = likes;
+  photographGallery.appendChild(likesElement);
+
+  image.forEach((image) => {
+    const imgElement = document.createElement("img");
+    img.setAttribute("src", `/Photographers_ID_Photos/${image}`);
+    img.setAttribute("alt", title);
+    photographGallery.appendChild(imgElement);
+  });
+
+  video.forEach((video) => {
+    const videoElement = document.createElement("video");
+    videoElement.setAttribute("controls", "");
+    videoElement.setAttribute("src", `/Photographers_ID_Photos/${video}`);
+    videoElement.setAttribute("alt", title);
+    photographGallery.appendChild(videoElement);
+  });
+
+  return { title, likes, image, video };
+}
