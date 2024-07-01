@@ -111,7 +111,7 @@ fetch("/photographers.json")
     );
 
     // Déstructure les propriétés de l'objet photographe work
-    const { title, image, video, date, likes } = photographerWork;
+    const { title, image = [], video = [], date, likes } = photographerWork;
 
     // Crée un nouvel objet avec les données du photographe
     const photographerWorkData = {
@@ -128,7 +128,9 @@ fetch("/photographers.json")
 
 // Fonction pour construire le DOM avec les images du photographe
 
-function getPhotographGallery({ title, date, likes, image = [], video = [] }) {
+function getPhotographGallery(data) {
+  const { title, image, video, date, likes } = data;
+
   const photographGallery = document.querySelector(".photograph-gallery");
 
   const titleElement = document.createElement("h2");
@@ -139,19 +141,25 @@ function getPhotographGallery({ title, date, likes, image = [], video = [] }) {
   likesElement.textContent = likes;
   photographGallery.appendChild(likesElement);
 
-  image.forEach((image) => {
-    const imgElement = document.createElement("img");
-    img.setAttribute("src", `/Photographers_ID_Photos/${image}`);
-    img.setAttribute("alt", title);
-    photographGallery.appendChild(imgElement);
-  });
+  const media = [
+    ...image.map((src) => ({ type: "img", src })),
+    ...video.map((src) => ({ type: "video", src })),
+  ];
 
-  video.forEach((video) => {
-    const videoElement = document.createElement("video");
-    videoElement.setAttribute("controls", "");
-    videoElement.setAttribute("src", `/Photographers_ID_Photos/${video}`);
-    videoElement.setAttribute("alt", title);
-    photographGallery.appendChild(videoElement);
+  media.forEach((item) => {
+    let element;
+
+    if (item.type === "img") {
+      element = document.createElement("img");
+      element.setAttribute("src", `/${id}/${item.src}`);
+    } else if (item.type === "video") {
+      element = document.createElement("video");
+      element.setAttribute("controls", "");
+      element.setAttribute("src", `/${id}/${item.src}`);
+    }
+
+    element.setAttribute("alt", title);
+    photographGallery.appendChild(element);
   });
 
   return { title, likes, image, video };
