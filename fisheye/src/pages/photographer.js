@@ -2,8 +2,8 @@ import "../css/style.css";
 import "../css/photographer.css";
 import { displayModal } from "../scripts/outils/contactForm";
 import { closeModal } from "../scripts/outils/contactForm";
-//Présentation section
 
+// Présentation section
 // Sélectionner l'élément DOM où les informations du photographe seront ajoutées
 const photographHeader = document.querySelector(".photograph-header");
 
@@ -23,6 +23,10 @@ fetch("/photographers.json")
       (photographer) => photographer.id == id
     );
 
+    if (!photographer) {
+      throw new Error(`Photographe avec l'ID ${id} non trouvé`);
+    }
+
     // Déstructure les propriétés de l'objet photographe
     const { name, portrait, city, country, tagline, price, tags } =
       photographer;
@@ -40,6 +44,9 @@ fetch("/photographers.json")
 
     // Appeler la fonction pour afficher les informations du photographe
     getPhotographPresentation(photographerData);
+
+    // Récupérer et afficher les médias du photographe
+    getPhotographGallery(data.media, photographer.id, photographer.name);
   })
   // Gère les erreurs potentielles lors de la récupération des données
   .catch((error) => {
@@ -83,84 +90,54 @@ function getPhotographPresentation({
   img.setAttribute("alt", name);
   photographHeader.appendChild(img);
 
-  /**
-   * TODO: Ajouter pour plus tard
-   */
   // const priceDiv = document.createElement("div");
   // priceDiv.textContent = `${price}€/jour`;
   // priceDiv.classList.add("price");
+
   const closeBtn = document.querySelector(".closeBtn");
   closeBtn.addEventListener("click", closeModal);
 }
+
 // Gallery section
-
 // Sélectionner l'élément du DOM où les images du photographe seront ajoutées
-
-// Fetch le fichier JSON qui contient les informations des photographes
-
-fetch("/photographers.json")
-  .then((response) => {
-    // Convertit la réponse en un objet JSON
-    return response.json();
-  })
-
-  .then((data) => {
-    // Trouve le photographe spécifique en fonction de son identifiant
-    const photographerWork = data.photographers.find(
-      (photographer) => photographer.id == id
-    );
-
-    // Déstructure les propriétés de l'objet photographe work
-    const { title, image = [], video = [], date, likes } = photographerWork;
-
-    // Crée un nouvel objet avec les données du photographe
-    const photographerWorkData = {
-      title,
-      image,
-      video,
-      date,
-      likes,
-    };
-
-    // Appeler la fonction pour afficher les images du photographe
-    getPhotographGallery(photographerWorkData);
-  });
-
-// Fonction pour construire le DOM avec les images du photographe
-
-function getPhotographGallery(data) {
-  const { title, image, video, date, likes } = data;
-
+function getPhotographGallery(media, photographerId, photographerName) {
   const photographGallery = document.querySelector(".photograph-gallery");
 
-  const titleElement = document.createElement("h2");
-  titleElement.textContent = title;
-  photographGallery.appendChild(titleElement);
+  // Filtrer les médias pour ne garder que ceux appartenant au photographe actuel
+  const photographerMedia = media.filter(
+    (item) => item.photographerId == photographerId
+  );
 
-  const likesElement = document.createElement("p");
-  likesElement.textContent = likes;
-  photographGallery.appendChild(likesElement);
-
-  const media = [
-    ...image.map((src) => ({ type: "img", src })),
-    ...video.map((src) => ({ type: "video", src })),
-  ];
-
-  media.forEach((item) => {
+  // Créer et ajouter les éléments de la galerie
+  // Parcourir chaque élément des médias du photographe
+  photographerMedia.forEach((item) => {
     let element;
 
-    if (item.type === "img") {
+    // Vérifier si le média est une image et s'il a un attribut 'title'
+    if (item.type === "image" && item.title) {
+      // Créer un élément image
       element = document.createElement("img");
-      element.setAttribute("src", `/${id}/${item.src}`);
-    } else if (item.type === "video") {
+      // Définir l'attribut 'src' de l'image avec le chemin du média
+      element.setAttribute("src", `/${id}/${image}`);
+    }
+    // Vérifier si le média est une vidéo et s'il a un attribut 'title'
+    else if (item.type === "video" && item.title) {
+      // Créer un élément vidéo
       element = document.createElement("video");
+      // Activer les contrôles de la vidéo
       element.setAttribute("controls", "");
-      element.setAttribute("src", `/${id}/${item.src}`);
+      // Définir l'attribut 'src' de la vidéo avec le chemin du média
+      element.setAttribute("src", `/${id}/${video}`);
+    }
+    // Si le média n'est ni une image ni une vidéo valide, afficher une erreur
+    else {
+      console.error("Média non valide :", item);
+      return; // Sortir de la boucle pour cet élément non valide
     }
 
-    element.setAttribute("alt", title);
+    // Définir l'attribut 'alt' de l'élément média avec le nom du photographe
+    element.setAttribute("alt", photographerName);
+    // Ajouter l'élément média au DOM dans la galerie du photographe
     photographGallery.appendChild(element);
   });
-
-  return { title, likes, image, video };
 }
