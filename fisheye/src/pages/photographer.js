@@ -46,7 +46,7 @@ fetch("/photographers.json")
     getPhotographPresentation(photographerData);
 
     // Récupérer et afficher les médias du photographe
-    getPhotographGallery(data.media, photographer.id, photographer.name);
+    getPhotographGallery(data.media, photographer.id, photographer.name, price);
   })
   // Gère les erreurs potentielles lors de la récupération des données
   .catch((error) => {
@@ -90,17 +90,13 @@ function getPhotographPresentation({
   img.setAttribute("alt", name);
   photographHeader.appendChild(img);
 
-  // const priceDiv = document.createElement("div");
-  // priceDiv.textContent = `${price}€/jour`;
-  // priceDiv.classList.add("price");
-
   const closeBtn = document.querySelector(".closeBtn");
   closeBtn.addEventListener("click", closeModal);
 }
 
 // Gallery section
 // Sélectionner l'élément du DOM où les images du photographe seront ajoutées
-export function getPhotographGallery(media, photographerId, photographerName) {
+function getPhotographGallery(media, photographerId, photographerName, price) {
   const photographGallery = document.querySelector(".photograph-gallery");
 
   // Filtrer les médias pour ne garder que ceux appartenant au photographe actuel
@@ -110,7 +106,7 @@ export function getPhotographGallery(media, photographerId, photographerName) {
 
   // Classe MediaFactory pour créer des éléments médias
   class MediaFactory {
-    static createMediaElement(item, id, title, likes) {
+    static createMediaElement(item, id, title, likes, price) {
       let element;
 
       if (item.hasOwnProperty("image")) {
@@ -151,13 +147,50 @@ export function getPhotographGallery(media, photographerId, photographerName) {
       likesElement.classList.add("media-likes");
 
       // Créer un cœur de Font Awesome
-      let heartIcon = document.createElement("i");
+      const heartIcon = document.createElement("i");
       heartIcon.className = "fas fa-heart";
 
       // Ajouter le cœur de Font Awesome et le nombre de likes au conteneur des likes
       likesElement.appendChild(heartIcon);
       likesElement.appendChild(document.createTextNode(` ${likes}`));
       mediaInfo.appendChild(likesElement);
+
+      // Créer et ajouter la div price et likes à la page
+
+      // Créer la div pour le prix
+      const priceDiv = document.createElement("div");
+      priceDiv.textContent = `${price}€/jour`;
+      priceDiv.classList.add("price");
+
+      // Sélectionner tous les éléments contenant les likes
+      const allLikes = document.querySelectorAll(".media-likes");
+      let totalLikes = 0;
+
+      // Calculer le total des likes
+      allLikes.forEach((like) => {
+        totalLikes += parseInt(like.textContent);
+      });
+
+      // Créer la div pour le total des likes
+      const totalLikesDiv = document.createElement("div");
+      totalLikesDiv.textContent = totalLikes;
+      totalLikesDiv.classList.add("total-likes");
+      totalLikesDiv.appendChild(heartIcon);
+
+      // Créer le conteneur pour le total des likes et le prix
+      const totalLikesContainer = document.createElement("div");
+      totalLikesContainer.classList.add("total-likes-container");
+
+      // Ajouter les divs de total des likes et de prix au conteneur
+      totalLikesContainer.appendChild(totalLikesDiv);
+      totalLikesContainer.appendChild(priceDiv);
+      // Ajouter le conteneur à la galerie de photographes
+      const photographGallery = document.querySelector(".photograph-gallery");
+      if (photographGallery) {
+        photographGallery.appendChild(totalLikesContainer);
+      } else {
+        console.error("L'élément photographGallery n'existe pas sur la page.");
+      }
 
       return mediaContainer;
     }

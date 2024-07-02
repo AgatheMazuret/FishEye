@@ -27,7 +27,7 @@ function createLightbox() {
   lightboxGallery.appendChild(leftArrow);
 
   const lightboxMedia = document.createElement("img");
-  lightboxMedia.setAttribute("src", media.image);
+  lightboxMedia.setAttribute("title", media.image);
   lightboxMedia.classList.add("lightbox-media");
   lightboxContent.appendChild(lightboxMedia);
 
