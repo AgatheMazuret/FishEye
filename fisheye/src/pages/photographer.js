@@ -109,35 +109,39 @@ function getPhotographGallery(media, photographerId, photographerName) {
   );
 
   // Créer et ajouter les éléments de la galerie
-  // Parcourir chaque élément des médias du photographe
+  // Classe MediaFactory pour créer des éléments médias
+  class MediaFactory {
+    static createMediaElement(item, id) {
+      let element;
+
+      if (item.type === "image" && item.title) {
+        imageElement = document.createElement("img");
+        imageElement.setAttribute("src", `/${id}/${item}`);
+      } else if (item.type === "video" && item.title) {
+        videoElement = document.createElement("video");
+        videoElement.setAttribute("controls", "");
+        videoElement.setAttribute("src", `/${id}/${item}`);
+      } else {
+        console.error("Média non valide :", item);
+        return null;
+      }
+
+      element.setAttribute("alt", item.title);
+      return element;
+    }
+  }
+
+  // Utilisation de la MediaFactory pour ajouter des éléments médias à la galerie
   photographerMedia.forEach((item) => {
-    let element;
+    const element = MediaFactory.createMediaElement(item, photographerId);
 
-    // Vérifier si le média est une image et s'il a un attribut 'title'
-    if (item.type === "image" && item.title) {
-      // Créer un élément image
-      element = document.createElement("img");
-      // Définir l'attribut 'src' de l'image avec le chemin du média
-      element.setAttribute("src", `/${id}/${image}`);
+    if (element) {
+      photographGallery.appendChild(element);
     }
-    // Vérifier si le média est une vidéo et s'il a un attribut 'title'
-    else if (item.type === "video" && item.title) {
-      // Créer un élément vidéo
-      element = document.createElement("video");
-      // Activer les contrôles de la vidéo
-      element.setAttribute("controls", "");
-      // Définir l'attribut 'src' de la vidéo avec le chemin du média
-      element.setAttribute("src", `/${id}/${video}`);
-    }
-    // Si le média n'est ni une image ni une vidéo valide, afficher une erreur
-    else {
-      console.error("Média non valide :", item);
-      return; // Sortir de la boucle pour cet élément non valide
-    }
-
-    // Définir l'attribut 'alt' de l'élément média avec le nom du photographe
-    element.setAttribute("alt", photographerName);
-    // Ajouter l'élément média au DOM dans la galerie du photographe
-    photographGallery.appendChild(element);
   });
 }
+
+// Lightbox
+// Sélectionner les éléments de la galerie
+const gallery = document.querySelector(".photograph-gallery");
+const lightbox = document.querySelector(".photograph-lightbox");
