@@ -231,3 +231,21 @@ nav ul li a,
   width: auto;
   color: #901c1c;
 }
+
+/* Lightbox */
+
+.photograph-lightbox {
+  position: absolute;
+  display: none;
+  z-index: 1000;
+  left: 8%;
+  top: 450px;
+  width: 1242px;
+  height: 900px;
+  background-color: #ffffff;
+}
+
+.lightbox-gallery i {
+  font-size: 48px;
+  color: #901c1c;
+}

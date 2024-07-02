@@ -100,7 +100,7 @@ function getPhotographPresentation({
 
 // Gallery section
 // Sélectionner l'élément du DOM où les images du photographe seront ajoutées
-function getPhotographGallery(media, photographerId, photographerName) {
+export function getPhotographGallery(media, photographerId, photographerName) {
   const photographGallery = document.querySelector(".photograph-gallery");
 
   // Filtrer les médias pour ne garder que ceux appartenant au photographe actuel
