@@ -108,40 +108,119 @@ function getPhotographGallery(media, photographerId, photographerName) {
     (item) => item.photographerId == photographerId
   );
 
-  // Créer et ajouter les éléments de la galerie
   // Classe MediaFactory pour créer des éléments médias
   class MediaFactory {
-    static createMediaElement(item, id) {
+    static createMediaElement(item, id, title, likes) {
       let element;
 
-      if (item.type === "image" && item.title) {
-        imageElement = document.createElement("img");
-        imageElement.setAttribute("src", `/${id}/${item}`);
-      } else if (item.type === "video" && item.title) {
-        videoElement = document.createElement("video");
-        videoElement.setAttribute("controls", "");
-        videoElement.setAttribute("src", `/${id}/${item}`);
+      if (item.hasOwnProperty("image")) {
+        element = document.createElement("img");
+        element.setAttribute("src", `/${id}/${item.image}`);
+      } else if (item.hasOwnProperty("video")) {
+        element = document.createElement("video");
+        element.setAttribute("controls", "");
+        element.setAttribute("src", `/${id}/${item.video}`);
       } else {
         console.error("Média non valide :", item);
         return null;
       }
 
-      element.setAttribute("alt", item.title);
-      return element;
+      element.setAttribute("data-likes", likes);
+      element.setAttribute("alt", title);
+
+      // Créer un conteneur pour l'élément média et les informations
+      const mediaContainer = document.createElement("div");
+      mediaContainer.classList.add("media-container");
+
+      // Ajouter l'élément média au conteneur
+      mediaContainer.appendChild(element);
+
+      // Créer et ajouter un élément pour les informations média
+      const mediaInfo = document.createElement("div");
+      mediaInfo.classList.add("media-info");
+      mediaContainer.appendChild(mediaInfo);
+
+      // Créer et ajouter un élément pour le titre
+      const titleElement = document.createElement("p");
+      titleElement.classList.add("media-title");
+      titleElement.textContent = title;
+      mediaInfo.appendChild(titleElement);
+
+      // Créer et ajouter un élément pour les likes avec le cœur de Font Awesome
+      const likesElement = document.createElement("div");
+      likesElement.classList.add("media-likes");
+
+      // Créer un cœur de Font Awesome
+      let heartIcon = document.createElement("i");
+      heartIcon.className = "fas fa-heart";
+
+      // Ajouter le cœur de Font Awesome et le nombre de likes au conteneur des likes
+      likesElement.appendChild(heartIcon);
+      likesElement.appendChild(document.createTextNode(` ${likes}`));
+      mediaInfo.appendChild(likesElement);
+
+      return mediaContainer;
     }
   }
 
-  // Utilisation de la MediaFactory pour ajouter des éléments médias à la galerie
-  photographerMedia.forEach((item) => {
-    const element = MediaFactory.createMediaElement(item, photographerId);
+  // Fonction pour afficher la galerie
+  function displayGallery(mediaArray) {
+    // Effacer le contenu actuel de la galerie
+    photographGallery.innerHTML = "";
 
-    if (element) {
-      photographGallery.appendChild(element);
-    }
+    // Utilisation de la MediaFactory pour ajouter des éléments médias à la galerie
+    mediaArray.forEach((item) => {
+      const element = MediaFactory.createMediaElement(
+        item,
+        photographerId,
+        item.title,
+        item.likes
+      );
+
+      if (element) {
+        photographGallery.appendChild(element);
+      }
+    });
+  }
+
+  // Afficher la galerie initialement
+  displayGallery(photographerMedia);
+
+  //Tri des médias
+  const sortPopular = document.querySelector(".popularBtn");
+  const sortDate = document.querySelector(".dateBtn");
+  const sortTitle = document.querySelector(".titleBtn");
+
+  // Trier les médias par popularité
+  sortPopular.addEventListener("click", function () {
+    photographerMedia.sort(function (a, b) {
+      return b.likes - a.likes;
+    });
+    displayGallery(photographerMedia);
+  });
+
+  // Trier les médias par date
+  sortDate.addEventListener("click", function () {
+    photographerMedia.sort(function (a, b) {
+      return new Date(b.date) - new Date(a.date);
+    });
+    displayGallery(photographerMedia);
+  });
+
+  // Trier les médias par titre
+  sortTitle.addEventListener("click", function () {
+    photographerMedia.sort(function (a, b) {
+      const titleA = a.title.toLowerCase();
+      const titleB = b.title.toLowerCase();
+
+      if (titleA < titleB) {
+        return -1;
+      }
+      if (titleA > titleB) {
+        return 1;
+      }
+      return 0;
+    });
+    displayGallery(photographerMedia);
   });
 }
-
-// Lightbox
-// Sélectionner les éléments de la galerie
-const gallery = document.querySelector(".photograph-gallery");
-const lightbox = document.querySelector(".photograph-lightbox");
