@@ -100,9 +100,9 @@ function getPhotographGallery(media, photographerId, photographerName, price) {
   const photographGallery = document.querySelector(".photograph-gallery");
 
   // Filtrer les médias pour ne garder que ceux appartenant au photographe actuel
-  const photographerMedia = media.filter(
-    (item) => item.photographerId == photographerId
-  );
+  const photographerMedia = media
+    .filter((item) => item.photographerId === photographerId)
+    .sort((a, b) => b.likes - a.likes);
 
   // Classe MediaFactory pour créer des éléments médias
   class MediaFactory {
@@ -147,11 +147,13 @@ function getPhotographGallery(media, photographerId, photographerName, price) {
       likesElement.classList.add("media-likes");
 
       // Créer un cœur de Font Awesome
-      const heartIcon = document.createElement("i");
-      heartIcon.className = "fas fa-heart";
+      const heartIcon1 = document.createElement("i");
+      const heartIcon2 = document.createElement("i");
+      heartIcon1.className = "fas fa-heart";
+      heartIcon2.className = "fas fa-heart";
 
       // Ajouter le cœur de Font Awesome et le nombre de likes au conteneur des likes
-      likesElement.appendChild(heartIcon);
+      likesElement.appendChild(heartIcon1);
       likesElement.appendChild(document.createTextNode(` ${likes}`));
       mediaInfo.appendChild(likesElement);
 
@@ -175,7 +177,7 @@ function getPhotographGallery(media, photographerId, photographerName, price) {
       const totalLikesDiv = document.createElement("div");
       totalLikesDiv.textContent = totalLikes;
       totalLikesDiv.classList.add("total-likes");
-      totalLikesDiv.appendChild(heartIcon);
+      totalLikesDiv.appendChild(heartIcon2);
 
       // Créer le conteneur pour le total des likes et le prix
       const totalLikesContainer = document.createElement("div");
@@ -223,12 +225,14 @@ function getPhotographGallery(media, photographerId, photographerName, price) {
   const sortPopular = document.querySelector(".popularBtn");
   const sortDate = document.querySelector(".dateBtn");
   const sortTitle = document.querySelector(".titleBtn");
+  const sortBtn = document.querySelector(".dropbtn");
 
   // Trier les médias par popularité
   sortPopular.addEventListener("click", function () {
     photographerMedia.sort(function (a, b) {
       return b.likes - a.likes;
     });
+    sortBtn.innerHTML = sortPopular.innerHTML;
     displayGallery(photographerMedia);
   });
 
@@ -237,6 +241,7 @@ function getPhotographGallery(media, photographerId, photographerName, price) {
     photographerMedia.sort(function (a, b) {
       return new Date(b.date) - new Date(a.date);
     });
+    sortBtn.innerHTML = sortDate.innerHTML;
     displayGallery(photographerMedia);
   });
 
@@ -254,6 +259,7 @@ function getPhotographGallery(media, photographerId, photographerName, price) {
       }
       return 0;
     });
+    sortBtn.innerHTML = sortTitle.innerHTML;
     displayGallery(photographerMedia);
   });
 }
