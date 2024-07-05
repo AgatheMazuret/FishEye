@@ -168,6 +168,20 @@ function getPhotographGallery(media, photographerId, photographerName, price) {
       priceDiv.textContent = `${price} €/jour`;
       priceDiv.classList.add("price");
 
+      // Ecouteur d'evenement pour ajouter un like
+      heartIcon1.addEventListener("click", function () {
+        const currentLikes = parseInt(likesElement.textContent);
+        likesElement.textContent = ` ${likes + 1}`;
+        updateTotalLikes(1);
+      });
+
+      // Fonction pour mettre à jour le total des likes
+      function updateTotalLikes(value) {
+        const totalLikesDiv = document.querySelector(".total-likes");
+        const totalLikes = parseInt(totalLikesDiv.textContent);
+        totalLikesDiv.textContent = totalLikes + value;
+      }
+
       // Sélectionner tous les éléments contenant les likes
       const allLikes = document.querySelectorAll(".media-likes");
       let totalLikes = 0;

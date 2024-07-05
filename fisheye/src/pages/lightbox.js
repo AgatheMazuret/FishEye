@@ -3,8 +3,8 @@ import "../pages/photographer.js";
 
 // Sélectionner l'élément DOM où les médias du photographe seront ajoutés
 const lightboxImg = document.querySelector(".photograph-lightbox");
-const mediaContainer = document.querySelector(".photograph-gallery");
-const mediaElement = document.querySelectorAll(".media");
+const mediaContainer = document.querySelector("img");
+const mediaElement = document.querySelectorAll("media");
 
 // Fonction pour créer la lightbox
 function createLightbox() {
@@ -28,7 +28,7 @@ function createLightbox() {
 
   const lightboxMedia = document.createElement("img");
   lightboxMedia.setAttribute("media", mediaElement.image);
-  lightboxMedia.setAttribute("title", mediaElement.title);
+  lightboxMedia.setAttribute("aria-label", mediaElement.title);
   lightboxMedia.classList.add("lightbox-media");
   lightboxContent.appendChild(lightboxMedia);
 
@@ -59,6 +59,6 @@ function closeLightbox() {
   lightboxImg.style.display = "none"; // Fermer la lightbox
 }
 
-// Ecouter le cloc sur le bouton de fermeture de la lightbox
+// Ecouter le clic sur le bouton de fermeture de la lightbox
 const closeBtn = document.querySelector(".fa-times");
 closeBtn.addEventListener("click", closeLightbox);
