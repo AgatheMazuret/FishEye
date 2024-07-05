@@ -90,6 +90,9 @@ function getPhotographPresentation({
   img.setAttribute("alt", name);
   photographHeader.appendChild(img);
 
+  const priceElement = document.createElement("p");
+  priceElement.textContent = `${price} €/jour`;
+
   const closeBtn = document.querySelector(".closeBtn");
   closeBtn.addEventListener("click", closeModal);
 }
@@ -123,6 +126,7 @@ function getPhotographGallery(media, photographerId, photographerName, price) {
 
       element.setAttribute("data-likes", likes);
       element.setAttribute("alt", title);
+      element.setAttribute("price", price);
 
       // Créer un conteneur pour l'élément média et les informations
       const mediaContainer = document.createElement("div");
@@ -161,7 +165,7 @@ function getPhotographGallery(media, photographerId, photographerName, price) {
 
       // Créer la div pour le prix
       const priceDiv = document.createElement("div");
-      priceDiv.textContent = `${price}€/jour`;
+      priceDiv.textContent = `${price} €/jour`;
       priceDiv.classList.add("price");
 
       // Sélectionner tous les éléments contenant les likes
@@ -209,7 +213,8 @@ function getPhotographGallery(media, photographerId, photographerName, price) {
         item,
         photographerId,
         item.title,
-        item.likes
+        item.likes,
+        price
       );
 
       if (element) {
@@ -226,6 +231,14 @@ function getPhotographGallery(media, photographerId, photographerName, price) {
   const sortDate = document.querySelector(".dateBtn");
   const sortTitle = document.querySelector(".titleBtn");
   const sortBtn = document.querySelector(".dropbtn");
+
+  // Définir "Populaires" comme sélectionné par défaut
+  sortBtn.innerHTML = sortPopular.innerHTML;
+  sortPopular.classList.add("active");
+
+  // Trier les médias par popularité par défaut
+  photographerMedia.sort((a, b) => b.likes - a.likes);
+  displayGallery(photographerMedia);
 
   // Trier les médias par popularité
   sortPopular.addEventListener("click", function () {
