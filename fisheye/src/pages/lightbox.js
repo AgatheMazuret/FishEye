@@ -3,8 +3,8 @@ import "../pages/photographer.js";
 
 // Sélectionner l'élément DOM où les médias du photographe seront ajoutés
 const lightboxImg = document.querySelector(".lightbox");
-const mediaContainer = document.querySelector(".media-container img");
-const mediaElement = document.querySelectorAll(".media");
+const mediaContainers = document.getElementsByClassName("media-container");
+const mediaElements = document.querySelectorAll(".media");
 
 // Fonction pour créer la lightbox
 function createLightbox() {
@@ -27,8 +27,6 @@ function createLightbox() {
   lightboxGallery.appendChild(leftArrow);
 
   const lightboxMedia = document.createElement("img");
-  lightboxMedia.setAttribute("media", mediaElement.image);
-  lightboxMedia.setAttribute("aria-label", mediaElement.title);
   lightboxMedia.classList.add("lightbox-media");
   lightboxContent.appendChild(lightboxMedia);
 
@@ -48,17 +46,20 @@ createLightbox();
 
 // Fonction pour afficher la lightbox
 function displayLightbox() {
+  console.log("Affichage de la lightbox"); // Debugging: log message
   lightboxImg.style.display = "block"; // Afficher la lightbox
 }
 
-// Écouter les clics sur mediaContainer pour afficher la lightbox
-mediaContainer.addEventListener("click", displayLightbox);
+// Ajouter des écouteurs d'événements sur chaque mediaContainer pour afficher la lightbox
+Array.from(mediaContainers).forEach((container) => {
+  container.addEventListener("click", displayLightbox);
+});
 
 // Fonction pour fermer la lightbox
 function closeLightbox() {
+  console.log("Fermeture de la lightbox"); // Debugging: log message
   lightboxImg.style.display = "none"; // Fermer la lightbox
 }
 
-// Ecouter le cloc sur le bouton de fermeture de la lightbox
-const closeBtn = document.querySelector(".fa-times");
-closeBtn.addEventListener("click", closeLightbox);
+// Ecouter le clic sur le bouton de fermeture de la lightbox
+document.querySelector(".fa-times").addEventListener("click", closeLightbox);
