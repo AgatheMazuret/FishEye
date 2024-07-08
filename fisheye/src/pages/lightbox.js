@@ -1,77 +1,73 @@
 import "../css/photographer.css";
 import "../pages/photographer.js";
 
-// Sélectionner l'élément DOM où les médias du photographe seront ajoutés
-const lightbox = document.querySelector(".lightbox");
-const mediaContainer = document.querySelectorAll("img");
-const mediaElements = document.querySelectorAll(".media");
+// // Sélectionner l'élément DOM où les médias du photographe seront ajoutés
+// const lightbox = document.querySelector(".lightbox");
+// const mediaContainer = document.querySelectorAll("img");
 
-// Fonction pour créer la lightbox
-function createLightbox() {
-  const lightboxGallery = document.createElement("div");
-  lightboxGallery.classList.add("lightbox-gallery");
-  lightbox.appendChild(lightboxGallery);
+// // Fonction pour créer la lightbox
+// function createLightbox() {
+//   const lightboxGallery = document.createElement("div");
+//   lightboxGallery.classList.add("lightbox-gallery");
+//   lightbox.appendChild(lightboxGallery);
 
-  let closeBtn = document.createElement("i");
-  closeBtn.className = "fas fa-times";
-  closeBtn.setAttribute("aria-label", "Fermer la lightbox");
-  lightboxGallery.appendChild(closeBtn);
+//   let closeBtn = document.createElement("i");
+//   closeBtn.className = "fas fa-times";
+//   closeBtn.setAttribute("aria-label", "Fermer la lightbox");
+//   lightboxGallery.appendChild(closeBtn);
 
-  const lightboxContent = document.createElement("div");
-  lightboxContent.classList.add("lightbox-content");
-  lightboxGallery.appendChild(lightboxContent);
+//   const lightboxContent = document.createElement("div");
+//   lightboxContent.classList.add("lightbox-content");
+//   lightboxGallery.appendChild(lightboxContent);
 
-  let leftArrow = document.createElement("i");
-  leftArrow.className = "fas fa-chevron-left";
-  leftArrow.setAttribute("aria-label", "Photo précédente");
-  lightboxGallery.appendChild(leftArrow);
+//   let leftArrow = document.createElement("i");
+//   leftArrow.className = "fas fa-chevron-left";
+//   leftArrow.setAttribute("aria-label", "Photo précédente");
+//   lightboxGallery.appendChild(leftArrow);
 
-  const lightboxMedia = document.createElement("img");
-  lightboxMedia.classList.add("lightbox-media");
-  lightboxContent.appendChild(lightboxMedia);
+//   const lightboxMedia = document.createElement("img");
+//   lightboxMedia.classList.add("lightbox-media");
+//   lightboxContent.appendChild(lightboxMedia);
 
-  let rightArrow = document.createElement("i");
-  rightArrow.className = "fas fa-chevron-right";
-  rightArrow.setAttribute("aria-label", "Photo suivante");
-  lightboxGallery.appendChild(rightArrow);
+//   let rightArrow = document.createElement("i");
+//   rightArrow.className = "fas fa-chevron-right";
+//   rightArrow.setAttribute("aria-label", "Photo suivante");
+//   lightboxGallery.appendChild(rightArrow);
 
-  const lightboxTitle = document.createElement("p");
-  lightboxTitle.classList.add("lightbox-title");
-  lightboxTitle.setAttribute("aria-label", "Titre de la photo");
-  lightboxContent.appendChild(lightboxTitle);
-}
+//   const lightboxTitle = document.createElement("p");
+//   lightboxTitle.classList.add("lightbox-title");
+//   lightboxTitle.setAttribute("aria-label", "Titre de la photo");
+//   lightboxContent.appendChild(lightboxTitle);
 
-// Appel de la fonction pour créer la lightbox
-createLightbox();
+//   // Écouter le clic sur le bouton de fermeture de la lightbox
+//   closeBtn.addEventListener("click", closeLightbox);
+// }
 
-// Fonction pour afficher la lightbox avec le contenu pertinent
-function displayLightbox(event) {
-  const media = event.currentTarget;
-  const lightboxMedia = document.querySelector(".lightbox-media");
-  const lightboxTitle = document.querySelector(".lightbox-title");
+// // Appel de la fonction pour créer la lightbox
+// createLightbox();
 
-  // Mettre à jour le contenu de la lightbox avec les informations de l'élément cliqué
-  lightboxMedia.src = media.src;
-  lightboxTitle.textContent = media.title;
+// // Fonction pour afficher la lightbox avec le contenu pertinent
+// function displayLightbox(event) {
+//   const media = event.currentTarget;
+//   const lightboxMedia = document.querySelector(".lightbox-media");
+//   const lightboxTitle = document.querySelector(".lightbox-title");
 
-  lightbox.style.display = "block"; // Afficher la lightbox
-}
+//   // Mettre à jour le contenu de la lightbox avec les informations de l'élément cliqué
+//   lightboxMedia.src = media.src;
+//   lightboxTitle.textContent = media.title;
 
-// Écouter les clics sur chaque élément de mediaContainer pour afficher la lightbox
-for (let i = 0; i < mediaContainer.length; i++) {
-  mediaContainer[i].addEventListener("click", displayLightbox);
-}
+//   lightbox.style.display = "block"; // Afficher la lightbox
+// }
 
-// Fonction pour fermer la lightbox
-function closeLightbox() {
-  lightbox.style.display = "none"; // Fermer la lightbox
-}
+// // Écouter les clics sur chaque élément de mediaContainer pour afficher la lightbox
+// for (let i = 0; i < mediaContainer.length; i++) {
+//   mediaContainer[i].addEventListener("click", displayLightbox);
+// }
 
-// Écouter le clic sur le bouton de fermeture de la lightbox
-const closeBtn = document.querySelector(".fa-times");
-if (closeBtn) {
-  closeBtn.addEventListener("click", closeLightbox);
-}
+// // Fonction pour fermer la lightbox
+// function closeLightbox() {
+//   lightbox.style.display = "none"; // Fermer la lightbox
+// }
 
 // const lightbox = document.createElement("div");
 // lightbox.classList.add("lightbox");
@@ -89,3 +85,7 @@ if (closeBtn) {
 //     lightbox.appendChild(img);
 //   });
 // });
+
+// Sélection des éléments du DOM
+const lightbox = document.querySelector(".lightbox");
+const lightboxContent = document.querySelector(".lightbox-content");
