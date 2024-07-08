@@ -271,7 +271,7 @@ form textarea {
 
 /* Lightbox */
 
-.photograph-lightbox {
+#lightbox {
   position: absolute;
   display: none;
   z-index: 1000;
@@ -280,6 +280,16 @@ form textarea {
   width: 1242px;
   height: 900px;
   background-color: #ffffff;
+}
+
+#lightbox.active {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.media-container img {
+  cursor: pointer;
 }
 
 .lightbox-gallery i {
