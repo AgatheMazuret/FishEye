@@ -2,12 +2,21 @@ export function displayModal() {
   const modal = document.getElementById("contact_modal");
   modal.style.display = "block";
 
-  const firstNameInput = document.getElementById("prenom").value;
-  const lastNameInput = document.getElementById("nom").value;
-  const emailInput = document.getElementById("email").value;
-  const messageInput = document.getElementById("message").value;
+  // Récupérer l'ID depuis l'URL
+  const urlParams = new URLSearchParams(window.location.search);
+  const id = urlParams.get("id");
 
-  console.log(firstNameInput, lastNameInput, emailInput, messageInput);
+  // Trouver le prénom et le nom correspondant à l'ID
+  let firstname = "";
+  let lastname = "";
+  const user = users.find((user) => user.id === id);
+  if (user) {
+    firstname = user.firstname;
+    lastname = user.lastname;
+  } else {
+    firstname = "Utilisateur inconnu";
+    lastname = "";
+  }
 }
 
 export function closeModal() {

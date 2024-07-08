@@ -1,65 +1,65 @@
-import "../css/photographer.css";
 import "../pages/photographer.js";
+import "../css/photographer.css";
 
-// Sélectionner l'élément DOM où les médias du photographe seront ajoutés
-const lightboxImg = document.querySelector(".lightbox");
-const mediaContainers = document.getElementsByClassName("media-container");
-const mediaElements = document.querySelectorAll(".media");
+// Attendre que le DOM soit complètement chargé avant d'exécuter le script
 
-// Fonction pour créer la lightbox
-function createLightbox() {
-  const lightboxGallery = document.createElement("div");
-  lightboxGallery.classList.add("lightbox-gallery");
-  lightboxImg.appendChild(lightboxGallery);
+const mediaContainers = document.querySelectorAll(".media-container, img");
+const lightbox = document.querySelector(".lightbox");
+const lightboxImg = document.querySelector(".lightbox-img");
+const lightboxTitle = document.querySelector(".lightbox-title");
+const closeBtn = document.querySelector(".closeBtn");
+const prevBtn = document.querySelector(".fa-chevron-left");
+const nextBtn = document.querySelector(".fa-chevron-right");
 
-  let closeBtn = document.createElement("i");
-  closeBtn.className = "fas fa-times";
-  closeBtn.setAttribute("aria-label", "Fermer la lightbox");
-  lightboxGallery.appendChild(closeBtn);
-
-  const lightboxContent = document.createElement("div");
-  lightboxContent.classList.add("lightbox-content");
-  lightboxGallery.appendChild(lightboxContent);
-
-  let leftArrow = document.createElement("i");
-  leftArrow.className = "fas fa-chevron-left";
-  leftArrow.setAttribute("aria-label", "Photo précédente");
-  lightboxGallery.appendChild(leftArrow);
-
-  const lightboxMedia = document.createElement("img");
-  lightboxMedia.classList.add("lightbox-media");
-  lightboxContent.appendChild(lightboxMedia);
-
-  let rightArrow = document.createElement("i");
-  rightArrow.className = "fas fa-chevron-right";
-  rightArrow.setAttribute("aria-label", "Photo suivante");
-  lightboxGallery.appendChild(rightArrow);
-
-  const lightboxTitle = document.createElement("p");
-  lightboxTitle.classList.add("lightbox-title");
-  lightboxTitle.setAttribute("aria-label", "Titre de la photo");
-  lightboxContent.appendChild(lightboxTitle);
-}
-
-// Appel de la fonction pour créer la lightbox
-createLightbox();
+let currentMediaIndex = 0;
+let mediaArray = Array.from(mediaContainers);
 
 // Fonction pour afficher la lightbox
 function displayLightbox() {
-  console.log("Affichage de la lightbox"); // Debugging: log message
-  lightboxImg.style.display = "block"; // Afficher la lightbox
+  lightbox.style.display = "block";
 }
-
-// Ajouter des écouteurs d'événements sur chaque mediaContainer pour afficher la lightbox
-Array.from(mediaContainers).forEach((container) => {
-  container.addEventListener("click", displayLightbox);
-});
 
 // Fonction pour fermer la lightbox
 function closeLightbox() {
-  console.log("Fermeture de la lightbox"); // Debugging: log message
-  lightboxImg.style.display = "none"; // Fermer la lightbox
+  lightbox.style.display = "none";
+}
+
+// Fonction pour afficher la photo suivante
+function nextPhoto() {
+  currentMediaIndex++;
+  if (currentMediaIndex >= mediaArray.length) {
+    currentMediaIndex = 0;
+  }
+  lightboxImg.src = mediaArray[currentMediaIndex].src;
+  lightboxTitle.textContent = mediaArray[currentMediaIndex].alt;
+}
+
+// Fonction pour afficher la photo précédente
+function prevPhoto() {
+  currentMediaIndex--;
+  if (currentMediaIndex < 0) {
+    currentMediaIndex = mediaArray.length - 1;
+  }
+  lightboxImg.src = mediaArray[currentMediaIndex].src;
+  lightboxTitle.textContent = mediaArray[currentMediaIndex].alt;
 }
 
 // Ecouter le clic sur le bouton de fermeture de la lightbox
-document.querySelector(".fa-times").addEventListener("click", closeLightbox);
+if (closeBtn) {
+  closeBtn.addEventListener("click", closeLightbox);
+}
+
+// Ecouter le clic sur le bouton de la photo suivante
+if (nextBtn) {
+  nextBtn.addEventListener("click", nextPhoto);
+}
+
+// Ecouter le clic sur le bouton de la photo précédente
+if (prevBtn) {
+  prevBtn.addEventListener("click", prevPhoto);
+}
+
+// Ajouter des écouteurs d'événements sur chaque mediaContainer pour afficher la lightbox
+mediaArray.forEach((container) => {
+  container.addEventListener("click", displayLightbox);
+});
