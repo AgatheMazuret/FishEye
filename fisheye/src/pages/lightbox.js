@@ -54,7 +54,7 @@ function displayLightbox(event) {
   lightboxMedia.src = media.src;
   lightboxTitle.textContent = media.title;
 
-  lightboxImg.style.display = "block"; // Afficher la lightbox
+  lightbox.style.display = "block"; // Afficher la lightbox
 }
 
 // Écouter les clics sur chaque élément de mediaContainer pour afficher la lightbox
@@ -64,7 +64,7 @@ for (let i = 0; i < mediaContainer.length; i++) {
 
 // Fonction pour fermer la lightbox
 function closeLightbox() {
-  lightboxImg.style.display = "none"; // Fermer la lightbox
+  lightbox.style.display = "none"; // Fermer la lightbox
 }
 
 // Écouter le clic sur le bouton de fermeture de la lightbox
