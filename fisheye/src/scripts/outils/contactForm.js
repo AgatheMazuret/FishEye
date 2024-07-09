@@ -17,6 +17,17 @@ export function displayModal() {
     firstname = "Utilisateur inconnu";
     lastname = "";
   }
+  // Afficher le prénom et le nom dans le modal
+  const firstnameElement = document.getElementById("firstname");
+  const lastnameElement = document.getElementById("lastname");
+
+  if (firstnameElement) {
+    firstnameElement.textContent = firstname;
+  }
+
+  if (lastnameElement) {
+    lastnameElement.textContent = lastname;
+  }
 }
 
 export function closeModal() {
