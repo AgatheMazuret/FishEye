@@ -9,7 +9,7 @@ export function displayModal() {
   // Trouver le prénom et le nom correspondant à l'ID
   let firstname = "";
   let lastname = "";
-  const user = users.find((user) => user.id === id);
+  const user = user.find((user) => user.id === id);
   if (user) {
     firstname = user.firstname;
     lastname = user.lastname;

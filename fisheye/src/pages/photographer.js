@@ -2,6 +2,7 @@ import "../css/style.css";
 import "../css/photographer.css";
 import { displayModal } from "../scripts/outils/contactForm";
 import { closeModal } from "../scripts/outils/contactForm";
+import { displayLightbox } from "./lightbox";
 
 // Présentation section
 // Sélectionner l'élément DOM où les informations du photographe seront ajoutées
@@ -127,6 +128,11 @@ function getPhotographGallery(media, photographerId, photographerName, price) {
       element.setAttribute("data-likes", likes);
       element.setAttribute("alt", title);
       element.setAttribute("price", price);
+
+      //  Ajouter adeventlister pour ouvrir la lightbox
+      element.addEventListener("click", () => {
+        displayLightbox(element);
+      });
 
       // Créer un conteneur pour l'élément média et les informations
       const mediaContainer = document.createElement("div");
