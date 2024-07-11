@@ -131,7 +131,11 @@ function getPhotographGallery(media, photographerId, photographerName, price) {
 
       //  Ajouter adeventlister pour ouvrir la lightbox
       element.addEventListener("click", () => {
-        displayLightbox(element);
+        // Cloner l'image
+        const clone = element.cloneNode();
+
+        // Afficher l'image dans la lightbox
+        displayLightbox(clone);
       });
 
       // Créer un conteneur pour l'élément média et les informations

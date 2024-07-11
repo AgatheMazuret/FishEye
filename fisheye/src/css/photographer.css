@@ -133,7 +133,7 @@ form textarea {
   background-color: #901c1c;
   color: white;
   font-size: 18px;
-  width: 180px;
+  width: 160px;
   height: 55px;
   border: none;
   cursor: pointer;
@@ -266,7 +266,7 @@ form textarea {
 }
 
 .price {
-  width: 60%;
+  margin-right: 60px;
 }
 
 /* Lightbox */

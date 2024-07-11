@@ -30,12 +30,11 @@ function createMediaElement(item, id, title) {
   return element;
 }
 
-console.log(lightboxTitle);
-
 let currentMediaIndex = 0;
 
 // Fonction pour afficher la lightbox
 export function displayLightbox(element) {
+  lightbox.src = element.src;
   lightbox.style.display = "block";
 
   // Sélectionner l'élément où ajouter les médias (par exemple, un conteneur div)
@@ -51,22 +50,38 @@ function closeLightbox() {
 
 // Fonction pour afficher la photo suivante
 function nextPhoto() {
-  currentMediaIndex++;
-  if (currentMediaIndex >= mediaArray.length) {
-    currentMediaIndex = 0;
-  }
-  lightboxImg.src = mediaArray[currentMediaIndex].src;
-  lightboxTitle.textContent = mediaArray[currentMediaIndex].alt;
+  // aller à la photo suivante dans le tableau
+  document.addEventListener("click", (e) => {
+    if (e.target.classList.contains("fa-chevron-right")) {
+      currentMediaIndex++;
+      if (currentMediaIndex >= mediaItems.length) {
+        currentMediaIndex = 0;
+      }
+      const mediaElement = createMediaElement(
+        mediaItems[currentMediaIndex],
+        lightboxTitle.textContent
+      );
+      displayLightbox(mediaElement);
+    }
+  });
 }
 
 // Fonction pour afficher la photo précédente
 function prevPhoto() {
-  currentMediaIndex--;
-  if (currentMediaIndex < 0) {
-    currentMediaIndex = mediaArray.length - 1;
-  }
-  lightboxImg.src = mediaArray[currentMediaIndex].src;
-  lightboxTitle.textContent = mediaArray[currentMediaIndex].alt;
+  // aller à la photo précédente dans le tableau
+  document.addEventListener("click", (e) => {
+    if (e.target.classList.contains("fa-chevron-left")) {
+      currentMediaIndex--;
+      if (currentMediaIndex < 0) {
+        currentMediaIndex = mediaItems.length - 1;
+      }
+      const mediaElement = createMediaElement(
+        mediaItems[currentMediaIndex],
+        lightboxTitle.textContent
+      );
+      displayLightbox(mediaElement);
+    }
+  });
 }
 
 function initLightbox() {
