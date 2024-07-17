@@ -9,38 +9,41 @@ const nextBtn = document.querySelector(".fa-chevron-right");
 const urlParams = new URLSearchParams(window.location.search);
 const id = urlParams.get("id");
 
-const mediaItems = [];
-// Fonction pour créer des éléments de média
-function createMediaElement(item, id, title) {
-  let element;
-
-  if (item.hasOwnProperty("image")) {
-    element = document.createElement("img");
-    element.setAttribute("src", `/${id}/${item.image}`);
-    element.setAttribute("alt", title);
-  } else if (item.hasOwnProperty("video")) {
-    element = document.createElement("video");
-    element.setAttribute("controls", "");
-    element.setAttribute("src", `/${id}/${item.video}`);
-  } else {
-    console.error("Média non valide :", item);
-    return null;
-  }
-
-  return element;
+function getMediaElements() {
+  const mediaElements = document.querySelectorAll(
+    ".media-container img, .media-container video"
+  );
+  return mediaElements;
 }
 
 let currentMediaIndex = 0;
 
 // Fonction pour afficher la lightbox
 export function displayLightbox(element) {
-  lightbox.src = element.src;
   lightbox.style.display = "block";
-
+  // Récupérer l'index de l'élément actuel
+  const items = getMediaElements();
+  items.forEach((item, index) => {
+    if (item.src === element.src) {
+      currentMediaIndex = index;
+    }
+  });
   // Sélectionner l'élément où ajouter les médias (par exemple, un conteneur div)
   const lightboxImg = document.querySelector(".lightbox-img");
 
-  lightboxImg.appendChild(element);
+  // Supprimer l'image précédente si elle existe
+  while (lightboxImg.firstChild) {
+    lightboxImg.removeChild(lightboxImg.firstChild);
+  }
+
+  // Cloner l'image
+  const clone = element.cloneNode();
+
+  lightboxImg.appendChild(clone);
+
+  // Récupérer le titre de l'image
+  const title = element.getAttribute("alt");
+  lightboxTitle.textContent = title;
 }
 
 // Fonction pour fermer la lightbox
@@ -51,40 +54,30 @@ function closeLightbox() {
 // Fonction pour afficher la photo suivante
 function nextPhoto() {
   // aller à la photo suivante dans le tableau
-  document.addEventListener("click", (e) => {
-    if (e.target.classList.contains("fa-chevron-right")) {
-      currentMediaIndex++;
-      if (currentMediaIndex >= mediaItems.length) {
-        currentMediaIndex = 0;
-      }
-      const mediaElement = createMediaElement(
-        mediaItems[currentMediaIndex],
-        lightboxTitle.textContent
-      );
-      displayLightbox(mediaElement);
-    }
-  });
+
+  const items = getMediaElements();
+  currentMediaIndex++;
+  if (currentMediaIndex >= items.length) {
+    // revenir au début du tableau si on est arrivé à la fin
+    currentMediaIndex = 0;
+  }
+  const mediaElement = items[currentMediaIndex];
+  displayLightbox(mediaElement);
 }
 
 // Fonction pour afficher la photo précédente
 function prevPhoto() {
+  const items = getMediaElements();
   // aller à la photo précédente dans le tableau
-  document.addEventListener("click", (e) => {
-    if (e.target.classList.contains("fa-chevron-left")) {
-      currentMediaIndex--;
-      if (currentMediaIndex < 0) {
-        currentMediaIndex = mediaItems.length - 1;
-      }
-      const mediaElement = createMediaElement(
-        mediaItems[currentMediaIndex],
-        lightboxTitle.textContent
-      );
-      displayLightbox(mediaElement);
-    }
-  });
+  currentMediaIndex--;
+  if (currentMediaIndex < 0) {
+    currentMediaIndex = items.length - 1;
+  }
+  const mediaElement = items[currentMediaIndex];
+  displayLightbox(mediaElement);
 }
 
-function initLightbox() {
+export function initLightbox() {
   // Ecouter le clic sur le bouton de fermeture de la lightbox
   if (closeBtn) {
     closeBtn.addEventListener("click", closeLightbox);
@@ -100,4 +93,3 @@ function initLightbox() {
     prevBtn.addEventListener("click", prevPhoto);
   }
 }
-initLightbox();

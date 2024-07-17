@@ -3,6 +3,7 @@ import "../css/photographer.css";
 import { displayModal } from "../scripts/outils/contactForm";
 import { closeModal } from "../scripts/outils/contactForm";
 import { displayLightbox } from "./lightbox";
+import { initLightbox } from "./lightbox";
 
 // Présentation section
 // Sélectionner l'élément DOM où les informations du photographe seront ajoutées
@@ -131,11 +132,8 @@ function getPhotographGallery(media, photographerId, photographerName, price) {
 
       //  Ajouter adeventlister pour ouvrir la lightbox
       element.addEventListener("click", () => {
-        // Cloner l'image
-        const clone = element.cloneNode();
-
         // Afficher l'image dans la lightbox
-        displayLightbox(clone);
+        displayLightbox(element);
       });
 
       // Créer un conteneur pour l'élément média et les informations
@@ -178,43 +176,42 @@ function getPhotographGallery(media, photographerId, photographerName, price) {
       priceDiv.textContent = `${price} €/jour`;
       priceDiv.classList.add("price");
 
-      // Ecouteur d'evenement pour ajouter un like
-      heartIcon1.addEventListener("click", function () {
-        // Récupère le nombre actuel de likes en convertissant le texte en nombre entier
-        const currentLikes = parseInt(likesElement.textContent.trim());
+      function addLikeListener(heartIcon, likesElement) {
+        heartIcon.addEventListener("click", function () {
+          // Récupère le nombre actuel de likes en convertissant le texte en nombre entier
+          const currentLikes = parseInt(likesElement.textContent.trim());
 
-        // Efface tout le contenu existant de likesElement
-        likesElement.textContent = ` `; // Efface le contenu
+          // Efface tout le contenu existant de likesElement
+          likesElement.textContent = ` `; // Efface le contenu
 
-        // Réajoute le cœur Font Awesome à likesElement
-        likesElement.appendChild(heartIcon1);
+          // Réajoute le cœur Font Awesome à likesElement
+          likesElement.appendChild(heartIcon);
 
-        // Ajoute le nouveau nombre de likes comme un nœud texte à likesElement
-        likesElement.appendChild(
-          document.createTextNode(` ${currentLikes + 1}`) // Ajoute le nouveau nombre de likes
-        );
+          // Ajoute le nouveau nombre de likes comme un nœud texte à likesElement
+          likesElement.appendChild(
+            document.createTextNode(` ${currentLikes + 1}`) // Ajoute le nouveau nombre de likes
+          );
+        });
+      }
 
-        // Met à jour le total des likes
-        updateTotalLikes(1);
-      });
+      addLikeListener(heartIcon1, likesElement, updateTotalLikes);
 
       // Fonction pour mettre à jour le total des likes
       function updateTotalLikes(value) {
         const totalLikesDiv = document.querySelector(".total-likes");
         const totalLikes = parseInt(totalLikesDiv.textContent.trim());
 
-        totalLikesDiv.textContent = totalLikes + value;
-
-        // Efface tout le contenu existant de totalLikesDiv
-        totalLikesDiv.textContent = ` `; // Efface le contenu
+        totalLikesDiv.textContent = totalLikes + currentLikes;
 
         // Réajoute le cœur Font Awesome à totalLikesDiv
         totalLikesDiv.appendChild(heartIcon2);
 
         // Ajoute le nouveau nombre de likes comme un nœud texte à totalLikesDiv
         totalLikesDiv.appendChild(
-          document.createTextNode(` ${totalLikes + value}`) // Ajoute le nouveau nombre de likes
+          document.createTextNode(` ${totalLikes + currentLikes}`) // Ajoute le nouveau nombre de likes
         );
+        // Met à jour le total des likes
+        updateTotalLikes(1);
       }
 
       // Sélectionner tous les éléments contenant les likes
@@ -325,3 +322,4 @@ function getPhotographGallery(media, photographerId, photographerName, price) {
     displayGallery(photographerMedia);
   });
 }
+initLightbox();
