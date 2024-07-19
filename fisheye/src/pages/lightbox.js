@@ -81,15 +81,30 @@ export function initLightbox() {
   // Ecouter le clic sur le bouton de fermeture de la lightbox
   if (closeBtn) {
     closeBtn.addEventListener("click", closeLightbox);
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") {
+        closeLightbox();
+      }
+    });
   }
 
   // Ecouter le clic sur le bouton de la photo suivante
   if (nextBtn) {
     nextBtn.addEventListener("click", nextPhoto);
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowRight") {
+        nextPhoto();
+      }
+    });
   }
 
   // Ecouter le clic sur le bouton de la photo précédente
   if (prevBtn) {
     prevBtn.addEventListener("click", prevPhoto);
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowLeft") {
+        prevPhoto();
+      }
+    });
   }
 }

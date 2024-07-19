@@ -1,33 +1,44 @@
 export function displayModal() {
   const modal = document.getElementById("contact_modal");
-  modal.style.display = "block";
+  if (modal) {
+    modal.style.display = "block";
+  } else {
+    console.error("Modal element not found");
+    return;
+  }
 
   // Récupérer l'ID depuis l'URL
   const urlParams = new URLSearchParams(window.location.search);
   const id = urlParams.get("id");
 
-  // Trouver le prénom et le nom correspondant à l'ID
-  let firstname = "";
-  let lastname = "";
-  const user = user.find((user) => user.id === id);
-  if (user) {
-    firstname = user.firstname;
-    lastname = user.lastname;
-  } else {
-    firstname = "Utilisateur inconnu";
-    lastname = "";
-  }
-  // Afficher le prénom et le nom dans le modal
-  const firstnameElement = document.getElementById("firstname");
-  const lastnameElement = document.getElementById("lastname");
+  console.log("Photographer ID from URL:", id);
 
-  if (firstnameElement) {
-    firstnameElement.textContent = firstname;
-  }
+  fetch("/photographers.json")
+    .then((response) => {
+      return response.json();
+    })
+    .then((data) => {
+      console.log("Fetched data:", data);
 
-  if (lastnameElement) {
-    lastnameElement.textContent = lastname;
-  }
+      // Trouve le photographe spécifique en fonction de son identifiant
+      const photographer = data.photographers.find(
+        (photographer) => photographer.id == id
+      );
+
+      console.log("Found photographer:", photographer);
+
+      const nameForm = document.querySelector(".modalContactName");
+      console.log("Name form element:", nameForm);
+
+      if (nameForm && photographer) {
+        nameForm.textContent = photographer.name;
+      } else {
+        console.error("Element not found or photographer not found");
+      }
+    })
+    .catch((error) => {
+      console.error("Error fetching photographers.json:", error);
+    });
 }
 
 export function closeModal() {

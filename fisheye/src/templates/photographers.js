@@ -14,11 +14,11 @@ export function photographerTemplate(data) {
 
     const img = document.createElement("img");
     img.setAttribute("src", picture);
+    img.setAttribute("alt", name);
 
     const h2 = document.createElement("h2");
     h2.textContent = name;
 
-    // Modifiez l'élément <a> pour inclure le lien avec l'ID
     const a = document.createElement("a");
     a.textContent = `${city}, ${country}`;
 

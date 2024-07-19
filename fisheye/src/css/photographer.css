@@ -28,7 +28,7 @@
   order: 1;
 }
 
-.photograph-header .presentation h2 {
+.photograph-header .presentation h1 {
   font-size: 64px;
   color: #d3573c;
   margin: 0;
@@ -100,6 +100,12 @@ form {
   width: 100%;
   flex-direction: column;
   align-items: flex-start;
+}
+
+.modalContactName {
+  font-size: 54px;
+  font-weight: 400;
+  margin: 0 0 20px 0;
 }
 
 form label {
@@ -238,6 +244,7 @@ form textarea {
   width: auto;
   color: #901c1c;
   white-space: nowrap;
+  cursor: pointer;
 }
 
 .total-likes-container {

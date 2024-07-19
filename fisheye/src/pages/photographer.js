@@ -68,7 +68,7 @@ function getPhotographPresentation({
   divPresentation.classList.add("presentation");
   photographHeader.appendChild(divPresentation);
 
-  const photographerName = document.createElement("h2");
+  const photographerName = document.createElement("h1");
   photographerName.textContent = name;
   divPresentation.appendChild(photographerName);
 
@@ -149,7 +149,7 @@ function getPhotographGallery(media, photographerId, photographerName, price) {
       mediaContainer.appendChild(mediaInfo);
 
       // Créer et ajouter un élément pour le titre
-      const titleElement = document.createElement("p");
+      const titleElement = document.createElement("h2");
       titleElement.classList.add("media-title");
       titleElement.textContent = title;
       mediaInfo.appendChild(titleElement);
@@ -177,47 +177,37 @@ function getPhotographGallery(media, photographerId, photographerName, price) {
       priceDiv.classList.add("price");
 
       function addLikeListener(heartIcon, likesElement) {
+        // Variable pour suivre si le cœur a été cliqué
+        let liked = false;
+
         heartIcon.addEventListener("click", function () {
-          // Récupère le nombre actuel de likes en convertissant le texte en nombre entier
-          const currentLikes = parseInt(likesElement.textContent.trim());
+          // Vérifie si le cœur a déjà été cliqué
+          if (!liked) {
+            // Récupère le nombre actuel de likes en convertissant le texte en nombre entier
+            const currentLikes = parseInt(likesElement.textContent.trim());
 
-          // Efface tout le contenu existant de likesElement
-          likesElement.textContent = ` `; // Efface le contenu
+            // Efface tout le contenu existant de likesElement
+            likesElement.textContent = ` `; // Efface le contenu
 
-          // Réajoute le cœur Font Awesome à likesElement
-          likesElement.appendChild(heartIcon);
+            // Réajoute le cœur Font Awesome à likesElement
+            likesElement.appendChild(heartIcon);
 
-          // Ajoute le nouveau nombre de likes comme un nœud texte à likesElement
-          likesElement.appendChild(
-            document.createTextNode(` ${currentLikes + 1}`) // Ajoute le nouveau nombre de likes
-          );
+            // Ajoute le nouveau nombre de likes comme un nœud texte à likesElement
+            likesElement.appendChild(
+              document.createTextNode(` ${currentLikes + 1}`) // Ajoute le nouveau nombre de likes
+            );
+
+            // Définit l'indicateur à true pour indiquer que le cœur a été cliqué
+            liked = true;
+          }
         });
       }
 
-      addLikeListener(heartIcon1, likesElement, updateTotalLikes);
-
-      // Fonction pour mettre à jour le total des likes
-      function updateTotalLikes(value) {
-        const totalLikesDiv = document.querySelector(".total-likes");
-        const totalLikes = parseInt(totalLikesDiv.textContent.trim());
-
-        totalLikesDiv.textContent = totalLikes + currentLikes;
-
-        // Réajoute le cœur Font Awesome à totalLikesDiv
-        totalLikesDiv.appendChild(heartIcon2);
-
-        // Ajoute le nouveau nombre de likes comme un nœud texte à totalLikesDiv
-        totalLikesDiv.appendChild(
-          document.createTextNode(` ${totalLikes + currentLikes}`) // Ajoute le nouveau nombre de likes
-        );
-        // Met à jour le total des likes
-        updateTotalLikes(1);
-      }
+      addLikeListener(heartIcon1, likesElement);
 
       // Sélectionner tous les éléments contenant les likes
       const allLikes = document.querySelectorAll(".media-likes");
       let totalLikes = 0;
-
       // Calculer le total des likes
       allLikes.forEach((like) => {
         totalLikes += parseInt(like.textContent);
