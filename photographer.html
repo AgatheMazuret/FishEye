@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <script
+      src="https://kit.fontawesome.com/1ac5acbfc8.js"
+      crossorigin="anonymous"
+    ></script>
+
+    <link
+      href="https://fonts.googleapis.com/css?family=DM+Sans&display=swap"
+      rel="stylesheet"
+    />
+    <title>Fisheye - photographe</title>
+  </head>
+  <body>
+    <header>
+      <img src="/logo.png" class="logo" />
+    </header>
+    <main id="main">
+      <div class="photograph-header"></div>
+    </main>
+    <div id="contact_modal">
+      <div class="modal">
+        <header>
+          <h2 id="modalContact">Contactez-moi</h2>
+          <img class="closeBtn" src="/close.svg" />
+        </header>
+        <form>
+          <h3 class="modalName"></h3>
+          <div>
+            <label for="prenom">Prénom</label>
+            <input type="text" id="prenom" name="prenom" required />
+
+            <label for="nom">Nom</label>
+            <input type="text" id="nom" name="nom" required />
+
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required />
+
+            <label for="message">Votre message</label>
+            <textarea id="message" name="message" required></textarea>
+          </div>
+
+          <button type="submit" class="contact_button">Envoyer</button>
+        </form>
+      </div>
+    </div>
+    <div class="dropdown-container">
+      <div class="dropdown">
+        <span> Trier par</span>
+        <div class="dropdown-content">
+          <button class="popularBtn">Popularité</button>
+          <hr />
+          <button class="dateBtn">Date</button>
+          <hr />
+          <button class="titleBtn">Titre</button>
+        </div>
+      </div>
+      <button class="dropbtn"></button>
+    </div>
+
+    <div class="photograph-gallery"></div>
+    <div class="lightbox">
+      <div class="lightbox-content">
+        <i class="fa-solid fa-xmark"></i>
+        <i class="fa-solid fa-chevron-left"></i>
+        <div class="lightbox-img"></div>
+        <div class="lightbox-title"></div>
+        <i class="fa-solid fa-chevron-right"></i>
+      </div>
+    </div>
+
+    <footer class="footer"></footer>
+
+    <script type="module" src="/src/pages/photographer.js"></script>
+    <script type="module" src="/src/scripts/outils/contactForm.js"></script>
+  </body>
+</html>
