@@ -108,11 +108,15 @@ form {
   margin: 0 0 20px 0;
 }
 
+<<<<<<< HEAD
 .modalContactName {
   font-size: 56px;
 }
 
 .form label {
+=======
+. form label {
+>>>>>>> 3a6f01e86ec5c118d1ed59477eba5046b295cf5c
   color: #312e2e;
   font-size: 36px;
 }
