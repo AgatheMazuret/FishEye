@@ -176,6 +176,16 @@ function getPhotographGallery(media, photographerId, photographerName, price) {
       priceDiv.textContent = `${price} €/jour`;
       priceDiv.classList.add("price");
 
+      // LES LIKES
+
+      // Sélectionner tous les éléments contenant les likes
+      const allLikes = document.querySelectorAll(".media-likes");
+      let totalLikes = 0;
+      // Calculer le total des likes
+      allLikes.forEach((like) => {
+        totalLikes += parseInt(like.textContent);
+      });
+
       function addLikeListener(heartIcon, likesElement) {
         // Variable pour suivre si le cœur a été cliqué
         let liked = false;
@@ -192,7 +202,7 @@ function getPhotographGallery(media, photographerId, photographerName, price) {
             // Réajoute le cœur Font Awesome à likesElement
             likesElement.appendChild(heartIcon);
 
-            // Ajoute le nouveau nombre de likes comme un nœud texte à likesElement
+            // Ajoute le nouveau nombre de likes à likesElement
             likesElement.appendChild(
               document.createTextNode(` ${currentLikes + 1}`) // Ajoute le nouveau nombre de likes
             );
@@ -204,14 +214,6 @@ function getPhotographGallery(media, photographerId, photographerName, price) {
       }
 
       addLikeListener(heartIcon1, likesElement);
-
-      // Sélectionner tous les éléments contenant les likes
-      const allLikes = document.querySelectorAll(".media-likes");
-      let totalLikes = 0;
-      // Calculer le total des likes
-      allLikes.forEach((like) => {
-        totalLikes += parseInt(like.textContent);
-      });
 
       // Créer la div pour le total des likes
       const totalLikesDiv = document.createElement("div");

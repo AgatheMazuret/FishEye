@@ -16,6 +16,11 @@ export function photographerTemplate(data) {
     img.setAttribute("src", picture);
     img.setAttribute("alt", name);
 
+    // Créer une div pour l'image
+    const imgDiv = document.createElement("div");
+    imgDiv.classList.add("img-container");
+    imgDiv.appendChild(img);
+
     const h2 = document.createElement("h2");
     h2.textContent = name;
 
@@ -36,7 +41,7 @@ export function photographerTemplate(data) {
     presentationDiv.appendChild(p);
 
     article.appendChild(balise);
-    article.appendChild(img);
+    article.appendChild(imgDiv); // Ajouter la div contenant l'image
     article.appendChild(presentationDiv);
     article.appendChild(priceDiv);
 
