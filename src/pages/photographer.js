@@ -99,11 +99,55 @@ function getPhotographPresentation({
   closeBtn.addEventListener("click", closeModal);
 }
 
+function createHeartIcon() {
+  const heartIcon = document.createElement("i");
+  heartIcon.className = "fas fa-heart";
+  return heartIcon;
+}
+
 // Gallery section
 // Sélectionner l'élément du DOM où les images du photographe seront ajoutées
 function getPhotographGallery(media, photographerId, photographerName, price) {
   const photographGallery = document.querySelector(".photograph-gallery");
 
+  function renderFooter() {
+    const footer = document.querySelector("footer");
+
+    footer.innerHTML = "";
+
+    // Déclarer une variable pour suivre le total des likes
+    let totalLikes = 0;
+
+    // Créer la div pour le prix
+    const priceDiv = document.createElement("div");
+    priceDiv.textContent = `${price} €/jour`;
+    priceDiv.classList.add("price");
+
+    // LES LIKES
+
+    // Sélectionner tous les éléments contenant les likes
+    const allLikes = document.querySelectorAll(".media-likes");
+    // Calculer le total des likes
+    allLikes.forEach((like) => {
+      totalLikes += parseInt(like.textContent);
+    });
+
+    // Créer la div pour le total des likes
+    const totalLikesDiv = document.createElement("div");
+    totalLikesDiv.textContent = totalLikes;
+    totalLikesDiv.classList.add("total-likes");
+    totalLikesDiv.appendChild(createHeartIcon());
+
+    // Créer le conteneur pour le total des likes et le prix
+    const totalLikesContainer = document.createElement("div");
+    totalLikesContainer.classList.add("total-likes-container");
+
+    // Ajouter les divs de total des likes et de prix au conteneur
+    totalLikesContainer.appendChild(totalLikesDiv);
+    totalLikesContainer.appendChild(priceDiv);
+
+    footer.appendChild(totalLikesContainer);
+  }
   // Filtrer les médias pour ne garder que ceux appartenant au photographe actuel
   const photographerMedia = media
     .filter((item) => item.photographerId === photographerId)
@@ -159,32 +203,12 @@ function getPhotographGallery(media, photographerId, photographerName, price) {
       likesElement.classList.add("media-likes");
 
       // Créer un cœur de Font Awesome
-      const heartIcon1 = document.createElement("i");
-      const heartIcon2 = document.createElement("i");
-      heartIcon1.className = "fas fa-heart";
-      heartIcon2.className = "fas fa-heart";
+      const heartIcon1 = createHeartIcon();
 
       // Ajouter le cœur de Font Awesome et le nombre de likes au conteneur des likes
       likesElement.appendChild(heartIcon1);
       likesElement.appendChild(document.createTextNode(` ${likes}`));
       mediaInfo.appendChild(likesElement);
-
-      // Créer et ajouter la div price et likes à la page
-
-      // Créer la div pour le prix
-      const priceDiv = document.createElement("div");
-      priceDiv.textContent = `${price} €/jour`;
-      priceDiv.classList.add("price");
-
-      // LES LIKES
-
-      // Sélectionner tous les éléments contenant les likes
-      const allLikes = document.querySelectorAll(".media-likes");
-      let totalLikes = 0;
-      // Calculer le total des likes
-      allLikes.forEach((like) => {
-        totalLikes += parseInt(like.textContent);
-      });
 
       function addLikeListener(heartIcon, likesElement) {
         // Variable pour suivre si le cœur a été cliqué
@@ -209,36 +233,19 @@ function getPhotographGallery(media, photographerId, photographerName, price) {
 
             // Définit l'indicateur à true pour indiquer que le cœur a été cliqué
             liked = true;
+
+            // Mettre à jour le total des likes
+
+            renderFooter();
           }
         });
       }
-
       addLikeListener(heartIcon1, likesElement);
-
-      // Créer la div pour le total des likes
-      const totalLikesDiv = document.createElement("div");
-      totalLikesDiv.textContent = totalLikes;
-      totalLikesDiv.classList.add("total-likes");
-      totalLikesDiv.appendChild(heartIcon2);
-
-      // Créer le conteneur pour le total des likes et le prix
-      const totalLikesContainer = document.createElement("div");
-      totalLikesContainer.classList.add("total-likes-container");
-
-      // Ajouter les divs de total des likes et de prix au conteneur
-      totalLikesContainer.appendChild(totalLikesDiv);
-      totalLikesContainer.appendChild(priceDiv);
-      // Ajouter le conteneur à la galerie de photographes
-      const photographGallery = document.querySelector(".photograph-gallery");
-      if (photographGallery) {
-        photographGallery.appendChild(totalLikesContainer);
-      } else {
-        console.error("L'élément photographGallery n'existe pas sur la page.");
-      }
 
       return mediaContainer;
     }
   }
+  // Créer et ajouter la div price et likes à la page
 
   // Fonction pour afficher la galerie
   function displayGallery(mediaArray) {
@@ -263,7 +270,7 @@ function getPhotographGallery(media, photographerId, photographerName, price) {
 
   // Afficher la galerie initialement
   displayGallery(photographerMedia);
-
+  renderFooter();
   //Tri des médias
   const sortPopular = document.querySelector(".popularBtn");
   const sortDate = document.querySelector(".dateBtn");
