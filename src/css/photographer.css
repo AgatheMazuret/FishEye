@@ -28,7 +28,7 @@
   order: 1;
 }
 
-.photograph-header .presentation h2 {
+.photograph-header .presentation h1 {
   font-size: 64px;
   color: #d3573c;
   margin: 0;
@@ -81,7 +81,7 @@
 }
 
 .modal header {
-  display: flex;
+  justify-content: space-between;
   width: 100%;
 }
 
@@ -102,21 +102,13 @@ form {
   align-items: flex-start;
 }
 
-.modalName {
+.modalContactName {
   font-size: 54px;
   font-weight: 400;
   margin: 0 0 20px 0;
 }
 
-<<<<<<< HEAD
-.modalContactName {
-  font-size: 56px;
-}
-
-.form label {
-=======
-. form label {
->>>>>>> 3a6f01e86ec5c118d1ed59477eba5046b295cf5c
+form label {
   color: #312e2e;
   font-size: 36px;
 }
@@ -252,6 +244,7 @@ form textarea {
   width: auto;
   color: #901c1c;
   white-space: nowrap;
+  cursor: pointer;
 }
 
 .total-likes-container {

@@ -14,11 +14,16 @@ export function photographerTemplate(data) {
 
     const img = document.createElement("img");
     img.setAttribute("src", picture);
+    img.setAttribute("alt", name);
+
+    // Créer une div pour l'image
+    const imgDiv = document.createElement("div");
+    imgDiv.classList.add("img-container");
+    imgDiv.appendChild(img);
 
     const h2 = document.createElement("h2");
     h2.textContent = name;
 
-    // Modifiez l'élément <a> pour inclure le lien avec l'ID
     const a = document.createElement("a");
     a.textContent = `${city}, ${country}`;
 
@@ -36,7 +41,7 @@ export function photographerTemplate(data) {
     presentationDiv.appendChild(p);
 
     article.appendChild(balise);
-    article.appendChild(img);
+    article.appendChild(imgDiv); // Ajouter la div contenant l'image
     article.appendChild(presentationDiv);
     article.appendChild(priceDiv);
 

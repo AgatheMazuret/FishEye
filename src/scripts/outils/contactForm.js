@@ -1,31 +1,47 @@
-export function displayModal(data) {
+export function displayModal() {
   const modal = document.getElementById("contact_modal");
-  modal.style.display = "block";
+  if (modal) {
+    modal.style.display = "block";
+  } else {
+    console.error("Modal element not found");
+    return;
+  }
 
-  // On récupère l'ID de l'URL
+  // Récupérer l'ID depuis l'URL
   const urlParams = new URLSearchParams(window.location.search);
   const id = urlParams.get("id");
 
+  console.log("Photographer ID from URL:", id);
+
   fetch("/photographers.json")
     .then((response) => {
-      // Convertit la réponse en un objet JSON
       return response.json();
     })
     .then((data) => {
+      console.log("Fetched data:", data);
+
       // Trouve le photographe spécifique en fonction de son identifiant
       const photographer = data.photographers.find(
         (photographer) => photographer.id == id
       );
 
-      if (!photographer) {
-        throw new Error(`Photographe avec l'ID ${id} non trouvé`);
-      } else if (photographer) {
-        const modalName = document.querySelector(".modalName");
-        modalName.textContent = photographer.name;
+      console.log("Found photographer:", photographer);
+
+      const nameForm = document.querySelector(".modalContactName");
+      console.log("Name form element:", nameForm);
+
+      if (nameForm && photographer) {
+        nameForm.textContent = photographer.name;
+      } else {
+        console.error("Element not found or photographer not found");
       }
+    })
+    .catch((error) => {
+      console.error("Error fetching photographers.json:", error);
     });
 }
+
 export function closeModal() {
-  const modal = document.querySelector("#contact_modal");
+  const modal = document.getElementById("contact_modal");
   modal.style.display = "none";
 }

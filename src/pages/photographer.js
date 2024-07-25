@@ -68,7 +68,7 @@ function getPhotographPresentation({
   divPresentation.classList.add("presentation");
   photographHeader.appendChild(divPresentation);
 
-  const photographerName = document.createElement("h2");
+  const photographerName = document.createElement("h1");
   photographerName.textContent = name;
   divPresentation.appendChild(photographerName);
 
@@ -149,7 +149,7 @@ function getPhotographGallery(media, photographerId, photographerName, price) {
       mediaContainer.appendChild(mediaInfo);
 
       // Créer et ajouter un élément pour le titre
-      const titleElement = document.createElement("p");
+      const titleElement = document.createElement("h2");
       titleElement.classList.add("media-title");
       titleElement.textContent = title;
       mediaInfo.appendChild(titleElement);
@@ -176,6 +176,16 @@ function getPhotographGallery(media, photographerId, photographerName, price) {
       priceDiv.textContent = `${price} €/jour`;
       priceDiv.classList.add("price");
 
+      // LES LIKES
+
+      // Sélectionner tous les éléments contenant les likes
+      const allLikes = document.querySelectorAll(".media-likes");
+      let totalLikes = 0;
+      // Calculer le total des likes
+      allLikes.forEach((like) => {
+        totalLikes += parseInt(like.textContent);
+      });
+
       function addLikeListener(heartIcon, likesElement) {
         // Variable pour suivre si le cœur a été cliqué
         let liked = false;
@@ -192,7 +202,7 @@ function getPhotographGallery(media, photographerId, photographerName, price) {
             // Réajoute le cœur Font Awesome à likesElement
             likesElement.appendChild(heartIcon);
 
-            // Ajoute le nouveau nombre de likes comme un nœud texte à likesElement
+            // Ajoute le nouveau nombre de likes à likesElement
             likesElement.appendChild(
               document.createTextNode(` ${currentLikes + 1}`) // Ajoute le nouveau nombre de likes
             );
@@ -203,34 +213,7 @@ function getPhotographGallery(media, photographerId, photographerName, price) {
         });
       }
 
-      addLikeListener(heartIcon1, likesElement, updateTotalLikes);
-
-      // Fonction pour mettre à jour le total des likes
-      function updateTotalLikes(value) {
-        const totalLikesDiv = document.querySelector(".total-likes");
-        const totalLikes = parseInt(totalLikesDiv.textContent.trim());
-
-        totalLikesDiv.textContent = totalLikes + currentLikes;
-
-        // Réajoute le cœur Font Awesome à totalLikesDiv
-        totalLikesDiv.appendChild(heartIcon2);
-
-        // Ajoute le nouveau nombre de likes comme un nœud texte à totalLikesDiv
-        totalLikesDiv.appendChild(
-          document.createTextNode(` ${totalLikes + currentLikes}`) // Ajoute le nouveau nombre de likes
-        );
-        // Met à jour le total des likes
-        updateTotalLikes(1);
-      }
-
-      // Sélectionner tous les éléments contenant les likes
-      const allLikes = document.querySelectorAll(".media-likes");
-      let totalLikes = 0;
-
-      // Calculer le total des likes
-      allLikes.forEach((like) => {
-        totalLikes += parseInt(like.textContent);
-      });
+      addLikeListener(heartIcon1, likesElement);
 
       // Créer la div pour le total des likes
       const totalLikesDiv = document.createElement("div");
