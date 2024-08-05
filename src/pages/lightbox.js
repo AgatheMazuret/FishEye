@@ -5,10 +5,7 @@ const closeBtn = document.querySelector(".fa-xmark");
 const prevBtn = document.querySelector(".fa-chevron-left");
 const nextBtn = document.querySelector(".fa-chevron-right");
 
-// Récupérer les données du photographe dont l'ID est dans l'URL
-const urlParams = new URLSearchParams(window.location.search);
-const id = urlParams.get("id");
-
+// Fonction pour récupérer les éléments médias
 function getMediaElements() {
   const mediaElements = document.querySelectorAll(
     ".media-container img, .media-container video"
@@ -78,6 +75,8 @@ function prevPhoto() {
 }
 
 export function initLightbox() {
+  //  **********************************Ecouter le clic pour fermer, afficher la photo suivante ou précédente**********************************
+
   // Ecouter le clic sur le bouton de fermeture de la lightbox
   if (closeBtn) {
     closeBtn.addEventListener("click", closeLightbox);

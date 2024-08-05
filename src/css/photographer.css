@@ -18,14 +18,12 @@
   width: 200px;
   border-radius: 100%;
   object-fit: cover;
-  order: 3;
 }
 
 .photograph-header .presentation {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  order: 1;
 }
 
 .photograph-header .presentation h1 {
@@ -46,8 +44,9 @@
   color: #525252;
 }
 
-.photograph-header .price {
-  order: 4;
+.contact_button:focus {
+  outline: 2px solid #901c1c;
+  outline-offset: 4px;
 }
 
 .contact_button {
@@ -61,13 +60,12 @@
   background-color: #901c1c;
   border-radius: 5px;
   cursor: pointer;
-  order: 2;
 }
 
 .modal {
   border-radius: 5px;
   background-color: #db8876;
-  width: 50%;
+  width: 669px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -75,8 +73,8 @@
   padding: 35px;
   margin: auto;
   z-index: 1000;
-  position: absolute;
-  top: auto;
+  position: fixed;
+  top: 50px;
   left: 25%;
 }
 
@@ -199,6 +197,12 @@ form textarea {
   display: block;
 }
 
+.dropdown-container:focus-within .dropdown-content {
+  display: block;
+  outline: 2px solid #901c1c;
+  outline-offset: 4px;
+}
+
 .photograph-gallery {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -207,14 +211,19 @@ form textarea {
 }
 
 .photograph-gallery img {
-  width: 350px;
+  width: 100%;
   height: 300px;
   object-fit: cover;
   border-radius: 5px;
 }
 
+video:focus {
+  outline: 2px solid #901c1c;
+  outline-offset: 4px;
+}
+
 .photograph-gallery video {
-  width: 350px;
+  width: 100%;
   height: 300px;
 }
 
@@ -226,7 +235,7 @@ form textarea {
 
 .media-info {
   display: flex;
-  width: 350px;
+
   justify-content: space-between;
   align-items: center;
   margin-top: 10px;
@@ -296,6 +305,11 @@ form textarea {
   padding: 16px;
   position: relative;
   box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+}
+
+img:focus {
+  outline: 2px solid #901c1c;
+  outline-offset: 4px;
 }
 
 .media-container img {

@@ -5,7 +5,8 @@ import { closeModal } from "../scripts/outils/contactForm";
 import { displayLightbox } from "./lightbox";
 import { initLightbox } from "./lightbox";
 
-// Présentation section
+// ******************************************Récupération des infos d'un photographe par son id******************************************
+
 // Sélectionner l'élément DOM où les informations du photographe seront ajoutées
 const photographHeader = document.querySelector(".photograph-header");
 
@@ -55,6 +56,8 @@ fetch("/photographers.json")
     console.error("Erreur : " + error);
   });
 
+// *****************************************Présentation photographe*****************************************
+
 // Fonction pour construire le DOM avec les données du photographe
 function getPhotographPresentation({
   name,
@@ -64,48 +67,89 @@ function getPhotographPresentation({
   tagline,
   price,
 }) {
+  // Création de la div pour la présentation du photographe
   const divPresentation = document.createElement("div");
   divPresentation.classList.add("presentation");
   photographHeader.appendChild(divPresentation);
 
+  // Création des éléments pour les informations du photographe
+  // Création du nom du photographe
   const photographerName = document.createElement("h1");
   photographerName.textContent = name;
   divPresentation.appendChild(photographerName);
 
+  // Création de la localisation du photographe
   const locationElement = document.createElement("p");
   locationElement.textContent = `${city}, ${country}`;
   locationElement.classList.add("location");
   divPresentation.appendChild(locationElement);
 
+  // Création de la phrase d'accroche du photographe
   const taglineElement = document.createElement("p");
   taglineElement.textContent = tagline;
   divPresentation.appendChild(taglineElement);
 
+  // Création du bouton de contact
   const contactButton = document.createElement("button");
   contactButton.classList.add("contact_button");
   contactButton.textContent = "Contactez-moi";
   contactButton.addEventListener("click", displayModal);
+  contactButton.addEventListener(
+    "keydown",
+    (event) => event.key === "Enter" && displayModal()
+  );
   photographHeader.appendChild(contactButton);
 
+  // Récupérer les données de la modale en cliquant sur le bouton envoyer
+  const submitBtn = document.querySelector(".contact_button");
+  const form = document.querySelector("form");
+
+  // Ajouter un gestionnaire d'événements pour la soumission du formulaire
+  form.addEventListener("submit", (event) => {
+    // Empêcher le comportement par défaut (soumission du formulaire)
+    event.preventDefault();
+
+    // Récupérer les données du formulaire
+    const firstName = document.querySelector("#prenom").value;
+    const lastName = document.querySelector("#nom").value;
+    const email = document.querySelector("#email").value;
+    const message = document.querySelector("#message").value;
+
+    // Afficher les données dans la console
+    console.log("Prénom :", firstName);
+    console.log("Nom :", lastName);
+    console.log("Email :", email);
+    console.log("Message :", message);
+  });
+
+  // Fermeture de la modale
+  const closeBtn = document.querySelector(".closeBtn");
+  closeBtn.addEventListener("click", closeModal);
+  document.addEventListener(
+    "keydown",
+    (event) => event.key === "Escape" && closeModal()
+  );
+
+  // Création de la photo de profil du photographe
   const img = document.createElement("img");
   img.setAttribute("src", `/Photographers_ID_Photos/${portrait}`);
   img.setAttribute("alt", name);
   photographHeader.appendChild(img);
 
+  // Création du prix par jour du photographe
   const priceElement = document.createElement("p");
   priceElement.textContent = `${price} €/jour`;
-
-  const closeBtn = document.querySelector(".closeBtn");
-  closeBtn.addEventListener("click", closeModal);
 }
 
+// Fonction pour créer un coeur Font Awesome
 function createHeartIcon() {
   const heartIcon = document.createElement("i");
   heartIcon.className = "fas fa-heart";
   return heartIcon;
 }
 
-// Gallery section
+// *****************************************Gallery section*****************************************
+
 // Sélectionner l'élément du DOM où les images du photographe seront ajoutées
 function getPhotographGallery(media, photographerId, photographerName, price) {
   const photographGallery = document.querySelector(".photograph-gallery");
@@ -115,15 +159,15 @@ function getPhotographGallery(media, photographerId, photographerName, price) {
 
     footer.innerHTML = "";
 
-    // Déclarer une variable pour suivre le total des likes
-    let totalLikes = 0;
-
     // Créer la div pour le prix
     const priceDiv = document.createElement("div");
     priceDiv.textContent = `${price} €/jour`;
     priceDiv.classList.add("price");
 
-    // LES LIKES
+    //*****************************LES LIKES **********************************
+
+    // Déclarer une variable pour suivre le total des likes
+    let totalLikes = 0;
 
     // Sélectionner tous les éléments contenant les likes
     const allLikes = document.querySelectorAll(".media-likes");
@@ -148,36 +192,62 @@ function getPhotographGallery(media, photographerId, photographerName, price) {
 
     footer.appendChild(totalLikesContainer);
   }
+
+  // ****************************Les médias**************************
+
   // Filtrer les médias pour ne garder que ceux appartenant au photographe actuel
   const photographerMedia = media
     .filter((item) => item.photographerId === photographerId)
     .sort((a, b) => b.likes - a.likes);
 
-  // Classe MediaFactory pour créer des éléments médias
   class MediaFactory {
+    // Méthode statique pour créer un élément média (image ou vidéo)
     static createMediaElement(item, id, title, likes, price) {
       let element;
 
+      // Vérifie si l'objet item possède une propriété "image"
       if (item.hasOwnProperty("image")) {
+        // Crée un élément img pour une image
         element = document.createElement("img");
+        // Définit l'attribut src de l'image en utilisant l'id et le nom de l'image
         element.setAttribute("src", `/${id}/${item.image}`);
-      } else if (item.hasOwnProperty("video")) {
+        // Ajoute l'attribut tabindex pour rendre l'image focusable
+        element.setAttribute("tabindex", "0");
+      }
+      // Vérifie si l'objet item possède une propriété "video"
+      else if (item.hasOwnProperty("video")) {
+        // Crée un élément video pour une vidéo
         element = document.createElement("video");
+        // Ajoute l'attribut controls pour afficher les contrôles de la vidéo
         element.setAttribute("controls", "");
+        // Définit l'attribut src de la vidéo en utilisant l'id et le nom de la vidéo
         element.setAttribute("src", `/${id}/${item.video}`);
-      } else {
+      }
+      // Si l'objet item n'a ni propriété "image" ni "video"
+      else {
+        // Affiche un message d'erreur dans la console
         console.error("Média non valide :", item);
+        // Retourne null pour indiquer l'échec de la création de l'élément média
         return null;
       }
 
+      // Définit l'attribut data-likes pour stocker le nombre de likes
       element.setAttribute("data-likes", likes);
+      // Définit l'attribut alt pour ajouter un titre descriptif à l'élément média
       element.setAttribute("alt", title);
+      // Définit l'attribut price pour stocker le prix
       element.setAttribute("price", price);
 
       //  Ajouter adeventlister pour ouvrir la lightbox
       element.addEventListener("click", () => {
         // Afficher l'image dans la lightbox
         displayLightbox(element);
+      });
+      element.addEventListener("keydown", (event) => {
+        if (event.key === "Enter") {
+          event.preventDefault();
+          displayLightbox(element.src);
+        }
       });
 
       // Créer un conteneur pour l'élément média et les informations
@@ -271,7 +341,7 @@ function getPhotographGallery(media, photographerId, photographerName, price) {
   // Afficher la galerie initialement
   displayGallery(photographerMedia);
   renderFooter();
-  //Tri des médias
+  //******************************************************Tri des médias******************************************************
   const sortPopular = document.querySelector(".popularBtn");
   const sortDate = document.querySelector(".dateBtn");
   const sortTitle = document.querySelector(".titleBtn");

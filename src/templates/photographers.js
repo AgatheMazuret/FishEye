@@ -10,6 +10,7 @@ export function photographerTemplate(data) {
     const balise = document.createElement("a");
     balise.classList.add("balise");
     balise.setAttribute("href", `photographer.html?id=${id}`);
+    balise.setAttribute("tabindex", "0");
     balise.setAttribute("target", "_blank"); // Ouvrir le lien dans un nouvel onglet
 
     const img = document.createElement("img");
