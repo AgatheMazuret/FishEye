@@ -43,6 +43,11 @@ h1 {
 }
 
 .balise:focus {
+  outline: 2px solid #901c1c;
+  outline-offset: 4px;
+}
+
+.balise {
   position: absolute;
   width: 300px;
   height: 410px;
