@@ -1,6 +1,5 @@
 const lightbox = document.querySelector(".lightbox");
 const lightboxTitle = document.querySelector(".lightbox-title");
-lightboxTitle.textContent = "Titre de la photo";
 const closeBtn = document.querySelector(".fa-xmark");
 const prevBtn = document.querySelector(".fa-chevron-left");
 const nextBtn = document.querySelector(".fa-chevron-right");

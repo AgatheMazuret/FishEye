@@ -144,6 +144,11 @@ form textarea {
   border-radius: 5px;
 }
 
+.dropbtn:focus {
+  outline: 2px solid #901c1c;
+  outline-offset: 4px;
+}
+
 .dropdown-container {
   display: flex;
   align-items: center;
@@ -171,14 +176,18 @@ form textarea {
 .dropdown-content {
   display: none;
   position: absolute;
-  top: -30%;
-  left: 121%;
+  top: 0;
+  left: 0;
   background-color: #901c1c;
   min-width: 160px;
   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
   z-index: 1;
   padding: 10px;
   border-radius: 5px;
+}
+
+.dropdown-content.show {
+  display: block;
 }
 
 .dropdown-content button {
@@ -195,12 +204,6 @@ form textarea {
 
 .dropdown-container:hover .dropdown-content {
   display: block;
-}
-
-.dropdown-container:focus-within .dropdown-content {
-  display: block;
-  outline: 2px solid #901c1c;
-  outline-offset: 4px;
 }
 
 .photograph-gallery {

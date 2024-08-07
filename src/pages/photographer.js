@@ -101,7 +101,6 @@ function getPhotographPresentation({
   photographHeader.appendChild(contactButton);
 
   // Récupérer les données de la modale en cliquant sur le bouton envoyer
-  const submitBtn = document.querySelector(".contact_button");
   const form = document.querySelector("form");
 
   // Ajouter un gestionnaire d'événements pour la soumission du formulaire
@@ -154,6 +153,8 @@ function createHeartIcon() {
 function getPhotographGallery(media, photographerId, photographerName, price) {
   const photographGallery = document.querySelector(".photograph-gallery");
 
+  // ******************************Footer**********************************
+
   function renderFooter() {
     const footer = document.querySelector("footer");
 
@@ -164,7 +165,7 @@ function getPhotographGallery(media, photographerId, photographerName, price) {
     priceDiv.textContent = `${price} €/jour`;
     priceDiv.classList.add("price");
 
-    //*****************************LES LIKES **********************************
+    //******************Les Likes Footer ********************
 
     // Déclarer une variable pour suivre le total des likes
     let totalLikes = 0;
@@ -193,7 +194,7 @@ function getPhotographGallery(media, photographerId, photographerName, price) {
     footer.appendChild(totalLikesContainer);
   }
 
-  // ****************************Les médias**************************
+  // ****************************Les médias**********************************
 
   // Filtrer les médias pour ne garder que ceux appartenant au photographe actuel
   const photographerMedia = media
@@ -267,6 +268,8 @@ function getPhotographGallery(media, photographerId, photographerName, price) {
       titleElement.classList.add("media-title");
       titleElement.textContent = title;
       mediaInfo.appendChild(titleElement);
+
+      //  ***********************Les likes sous les photos************************
 
       // Créer et ajouter un élément pour les likes avec le cœur de Font Awesome
       const likesElement = document.createElement("div");
@@ -347,6 +350,13 @@ function getPhotographGallery(media, photographerId, photographerName, price) {
   const sortTitle = document.querySelector(".titleBtn");
   const sortBtn = document.querySelector(".dropbtn");
 
+  sortBtn.addEventListener("click", function () {
+    document.querySelector(".dropdown-content").classList.toggle("show");
+  });
+
+  function closeDropdown() {
+    document.querySelector(".dropdown-content").classList.remove("show");
+  }
   // Définir "Populaires" comme sélectionné par défaut
   sortBtn.innerHTML = sortPopular.innerHTML;
   sortPopular.classList.add("active");
@@ -361,6 +371,7 @@ function getPhotographGallery(media, photographerId, photographerName, price) {
       return b.likes - a.likes;
     });
     sortBtn.innerHTML = sortPopular.innerHTML;
+    closeDropdown();
     displayGallery(photographerMedia);
   });
 
@@ -370,6 +381,7 @@ function getPhotographGallery(media, photographerId, photographerName, price) {
       return new Date(b.date) - new Date(a.date);
     });
     sortBtn.innerHTML = sortDate.innerHTML;
+    closeDropdown();
     displayGallery(photographerMedia);
   });
 
@@ -388,6 +400,7 @@ function getPhotographGallery(media, photographerId, photographerName, price) {
       return 0;
     });
     sortBtn.innerHTML = sortTitle.innerHTML;
+    closeDropdown();
     displayGallery(photographerMedia);
   });
 }
