@@ -1,9 +1,12 @@
-export function photographerTemplate(data) {
+// **********************************Créer un modèle de photographe**********************************
+
+export const photographerTemplate = (data) => {
   const { name, portrait, city, country, tagline, price, id } = data;
 
   const picture = `/Photographers_ID_Photos/${portrait}`;
 
-  function getUserCardDOM() {
+  // **********************Créer une carte de photographe******************************
+  const getUserCardDOM = () => {
     const article = document.createElement("article");
     article.setAttribute("data-id", id);
 
@@ -15,7 +18,6 @@ export function photographerTemplate(data) {
     img.setAttribute("src", picture);
     img.setAttribute("alt", name);
 
-    // Créer une div pour l'image
     const imgDiv = document.createElement("div");
     imgDiv.classList.add("img-container");
     imgDiv.appendChild(img);
@@ -40,11 +42,11 @@ export function photographerTemplate(data) {
     presentationDiv.appendChild(p);
 
     article.appendChild(balise);
-    article.appendChild(imgDiv); // Ajouter la div contenant l'image
+    article.appendChild(imgDiv);
     article.appendChild(presentationDiv);
     article.appendChild(priceDiv);
 
     return article;
-  }
+  };
   return { name, picture, getUserCardDOM };
-}
+};

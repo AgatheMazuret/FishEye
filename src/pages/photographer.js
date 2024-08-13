@@ -59,14 +59,14 @@ fetch("/photographers.json")
 // *****************************************Présentation photographe*****************************************
 
 // Fonction pour construire le DOM avec les données du photographe
-function getPhotographPresentation({
+const getPhotographPresentation = ({
   name,
   portrait,
   city,
   country,
   tagline,
   price,
-}) {
+}) => {
   // Création de la div pour la présentation du photographe
   const divPresentation = document.createElement("div");
   divPresentation.classList.add("presentation");
@@ -138,14 +138,14 @@ function getPhotographPresentation({
   // Création du prix par jour du photographe
   const priceElement = document.createElement("p");
   priceElement.textContent = `${price} €/jour`;
-}
+};
 
 // Fonction pour créer un coeur Font Awesome
-function createHeartIcon() {
+const createHeartIcon = () => {
   const heartIcon = document.createElement("i");
   heartIcon.className = "fas fa-heart";
   return heartIcon;
-}
+};
 
 // *****************************************Gallery section*****************************************
 
@@ -155,7 +155,7 @@ function getPhotographGallery(media, photographerId, photographerName, price) {
 
   // ******************************Footer**********************************
 
-  function renderFooter() {
+  const renderFooter = () => {
     const footer = document.querySelector("footer");
 
     footer.innerHTML = "";
@@ -192,7 +192,7 @@ function getPhotographGallery(media, photographerId, photographerName, price) {
     totalLikesContainer.appendChild(priceDiv);
 
     footer.appendChild(totalLikesContainer);
-  }
+  };
 
   // ****************************Les médias**********************************
 
@@ -283,7 +283,7 @@ function getPhotographGallery(media, photographerId, photographerName, price) {
       likesElement.appendChild(document.createTextNode(` ${likes}`));
       mediaInfo.appendChild(likesElement);
 
-      function addLikeListener(heartIcon, likesElement) {
+      const addLikeListener = (heartIcon, likesElement) => {
         // Variable pour suivre si le cœur a été cliqué
         let liked = false;
 
@@ -312,7 +312,7 @@ function getPhotographGallery(media, photographerId, photographerName, price) {
             renderFooter();
           }
         });
-      }
+      };
       addLikeListener(heartIcon1, likesElement);
 
       return mediaContainer;
@@ -321,7 +321,7 @@ function getPhotographGallery(media, photographerId, photographerName, price) {
   // Créer et ajouter la div price et likes à la page
 
   // Fonction pour afficher la galerie
-  function displayGallery(mediaArray) {
+  const displayGallery = (mediaArray) => {
     // Effacer le contenu actuel de la galerie
     photographGallery.innerHTML = "";
 
@@ -339,7 +339,7 @@ function getPhotographGallery(media, photographerId, photographerName, price) {
         photographGallery.appendChild(element);
       }
     });
-  }
+  };
 
   // Afficher la galerie initialement
   displayGallery(photographerMedia);
@@ -354,9 +354,9 @@ function getPhotographGallery(media, photographerId, photographerName, price) {
     document.querySelector(".dropdown-content").classList.toggle("show");
   });
 
-  function closeDropdown() {
+  const closeDropdown = () => {
     document.querySelector(".dropdown-content").classList.remove("show");
-  }
+  };
   // Définir "Populaires" comme sélectionné par défaut
   sortBtn.innerHTML = sortPopular.innerHTML;
   sortPopular.classList.add("active");
