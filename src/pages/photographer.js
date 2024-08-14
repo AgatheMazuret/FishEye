@@ -119,6 +119,8 @@ const getPhotographPresentation = ({
     console.log("Nom :", lastName);
     console.log("Email :", email);
     console.log("Message :", message);
+
+    form.reset();
   });
 
   // Fermeture de la modale
@@ -247,7 +249,7 @@ function getPhotographGallery(media, photographerId, photographerName, price) {
       element.addEventListener("keydown", (event) => {
         if (event.key === "Enter") {
           event.preventDefault();
-          displayLightbox(element.src);
+          displayLightbox(element);
         }
       });
 
